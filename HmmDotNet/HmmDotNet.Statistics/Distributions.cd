@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TA.Statistics.Distributions.Multivariate.Mixture&lt;T&gt;">
+    <Position X="9.25" Y="2" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIKAASIAABgAAAECACAGEgAAAAgAAABA=</HashCode>
+      <FileName>Distributions\Multivariate\Mixture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Statistics.Distributions.Multivariate.NormalDistribution">
+    <Position X="6.25" Y="2" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACIAABgAAAAAADAAEgAAAAwAAABA=</HashCode>
+      <FileName>Distributions\Multivariate\NormalDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Statistics.Distributions.Univariate.DiscreteDistribution">
+    <Position X="0.75" Y="2" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAIACAEAEgAAAAAAAAAEgAAAAgQAABA=</HashCode>
+      <FileName>Distributions\Univariate\DiscreteDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Statistics.Distributions.Univariate.NormalDistribution">
+    <Position X="3.25" Y="2" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAACAAABgAAAAAABAAEgAAAAgAAABA=</HashCode>
+      <FileName>Distributions\Univariate\NormalDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Statistics.Distributions.UnivariateDiscreteDistribution" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAFgAAAAAAAAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\UnivariateDiscreteDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Statistics.Distributions.UnivariateContinuousDistribution" Collapsed="true">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAFgAAAAAAAAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\UnivariateContinuousDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Statistics.Distributions.MultivariateContinuousDistribution" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgIAAFgAAAAAASAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\MultivariateContinuousDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

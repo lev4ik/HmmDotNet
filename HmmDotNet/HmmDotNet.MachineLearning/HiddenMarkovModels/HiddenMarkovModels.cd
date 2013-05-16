@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TA.MachineLearning.HiddenMarkovModel" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.75" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIgAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAgABg=</HashCode>
+      <FileName>HiddenMarkovModels\HiddenMarkovModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.HiddenMarkovModelMultivariateGaussianDistribution" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="6.25" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIgAAAAAAAAAAAAAAAgAAAAABAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>HiddenMarkovModels\HiddenMarkovModelMultivariateGaussianDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.HiddenMarkovModelGaussianDistribution" BaseTypeListCollapsed="true">
+    <Position X="9" Y="6" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIgAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAgAAg=</HashCode>
+      <FileName>HiddenMarkovModels\HiddenMarkovModelGaussianDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.HiddenMarkovModelMixtureDistribution" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIgAAAAAAAAAAAAAAAgAAAAABAAAAAAAAAAAAAgAAg=</HashCode>
+      <FileName>HiddenMarkovModels\HiddenMarkovModelMixtureDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.Estimators.HiddenMarkovModelState&lt;TDistribution&gt;">
+    <Position X="4.75" Y="0.75" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAwAAAAAgAAqAAggAAAAAAAAAUABABIAABA=</HashCode>
+      <FileName>HiddenMarkovModels\HiddenMarkovModelState.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

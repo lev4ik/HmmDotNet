@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TA.Statistics.Distributions.MultivariateContinuousDistribution" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="0.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgIAAFgAAAAAASAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\MultivariateContinuousDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Statistics.Distributions.MultivariateDiscreteDistribution" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgIAAFgAAAAAAQAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\MultivariateDiscreteDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Statistics.Distributions.UnivariateContinuousDistribution" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAFgAAAAAAAAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\UnivariateContinuousDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Statistics.Distributions.UnivariateDiscreteDistribution" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAFgAAAAAAAAAEgAAAAAAAABA=</HashCode>
+      <FileName>Distributions\Base\UnivariateDiscreteDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="TA.Statistics.Distributions.IDistribution">
+    <Position X="1.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAFgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distributions\Base\IDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.Statistics.Distributions.IMultivariateDistribution">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAEgAAAAAAAAAA=</HashCode>
+      <FileName>Distributions\Base\IMultivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.Statistics.Distributions.IUnivariateDistribution">
+    <Position X="2.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAA=</HashCode>
+      <FileName>Distributions\Base\IUnivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.ICloneable">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.IEquatable&lt;T&gt;">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{628E3288-439D-434F-9734-83614E1E20D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HmmDotNet.MachineLearning.Test</RootNamespace>
+    <AssemblyName>HmmDotNet.MachineLearning.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Algorithms\BaumWelchGaussianTest.cs" />
+    <Compile Include="Algorithms\BaumWelchMultivariateTest.cs" />
+    <Compile Include="Algorithms\BaumWelchTest.cs" />
+    <Compile Include="Algorithms\ForwardBackwardTest.cs" />
+    <Compile Include="Algorithms\KMeansTest.cs" />
+    <Compile Include="Algorithms\ViterbiMixtureTest.cs" />
+    <Compile Include="Algorithms\ViterbiMultiDistributionTest.cs" />
+    <Compile Include="Algorithms\ViterbiMultivariateTest.cs" />
+    <Compile Include="Algorithms\ViterbiTest.cs" />
+    <Compile Include="Data\DataRecord.cs" />
+    <Compile Include="Data\PredictionFileRecord.cs" />
+    <Compile Include="Data\TestDataUtils.cs" />
+    <Compile Include="Data\TestDataUtilsTest.cs" />
+    <Compile Include="Estimators\AlphaEstimatorTest.cs" />
+    <Compile Include="Estimators\BetaEstimatorTest.cs" />
+    <Compile Include="Estimators\GammaEstimatorTest.cs" />
+    <Compile Include="Estimators\KsiEstimatorTest.cs" />
+    <Compile Include="Estimators\MixtureCoefficientEstimatorTest.cs" />
+    <Compile Include="Estimators\MixtureGammaEstimatorTest.cs" />
+    <Compile Include="Estimators\MuEstimatorTest.cs" />
+    <Compile Include="Estimators\MuMixtureEstimatorTest.cs" />
+    <Compile Include="Estimators\SigmaEstimatorTest.cs" />
+    <Compile Include="Estimators\SigmaMixtureEstimatorTest.cs" />
+    <Compile Include="GaussianMixtureModelTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelFactoryTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelGaussianDistributionTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelMixtureDistributionTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelMultivariateNormalDistributionTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelStateFactoryTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelStateTest.cs" />
+    <Compile Include="HiddenMarkovModel\HiddenMarkovModelTest.cs" />
+    <Compile Include="Predictors\TrendPredictionErrorEstimatorTest.cs" />
+    <Compile Include="Predictors\ValuePredictionErrorEstimatorTest.cs" />
+    <Compile Include="Predictors\ViterbiBasedPredictorTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VaribaleEstimatorsTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\data.csv" />
+    <None Include="Data\data.xlsx" />
+    <None Include="Data\EURUSD\EURUSD.csv" />
+    <None Include="Data\FTSE\FTSE.csv" />
+    <None Include="Data\GOOG\goog.csv" />
+    <None Include="Data\INTL\intl.csv" />
+    <None Include="Data\MSFT\msft.csv" />
+    <None Include="Data\SP500\SP500.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HmmDotNet.MachineLearning\HmmDotNet.MachineLearning.csproj">
+      <Project>{6a2a94d7-167f-48f6-9039-0469d1b2ca54}</Project>
+      <Name>HmmDotNet.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HmmDotNet.Mathematic\HmmDotNet.Mathematic.csproj">
+      <Project>{f4dc1298-efe9-4b6b-9641-6b858e65dc0a}</Project>
+      <Name>HmmDotNet.Mathematic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HmmDotNet.Statistics\HmmDotNet.Statistics.csproj">
+      <Project>{f0f7b03b-aa7c-4f79-ae97-f49161a91a62}</Project>
+      <Name>HmmDotNet.Statistics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

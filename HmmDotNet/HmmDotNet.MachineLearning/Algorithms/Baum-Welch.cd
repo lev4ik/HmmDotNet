@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TA.MachineLearning.Algorithms.BaseBaumWelch&lt;TDistribution&gt;">
+    <Position X="0.75" Y="3.25" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAgRAAAAAAAAAABAAAAACAAAAAgA=</HashCode>
+      <FileName>Algorithms\Baum-Welch\Base\BaseBaumWelch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.BaumWelch">
+    <Position X="5.25" Y="2" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQQAAEAAAIAAAAAAAAUAAAAAAAgAAAAAAAAAAABAEI=</HashCode>
+      <FileName>Algorithms\Baum-Welch\BaumWelch.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.BaumWelchGaussianDistribution">
+    <Position X="5.25" Y="4.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAIAAAAAAAAQAAAAAIAgAAAAAAAAAAABgEI=</HashCode>
+      <FileName>Algorithms\Baum-Welch\BaumWelchGaussianDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.BaumWelchMixtureDistribution">
+    <Position X="5.25" Y="9.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAIAAAAAAAAQAAAAAAAgAAAAAAAAAAABAEI=</HashCode>
+      <FileName>Algorithms\Baum-Welch\BaumWelchMixtureDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.BaumWelchMultivariateDistribution">
+    <Position X="5.25" Y="7" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAIAAAAAAAAQAAAAAIAgAAAAAAAAAAABgEI=</HashCode>
+      <FileName>Algorithms\Baum-Welch\BaumWelchMultivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.GammaEstimator&lt;TDistribution&gt;">
+    <Position X="0.5" Y="14.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAQAAAAAgAAAAAAEAAAAIAAQAABAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\GammaEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.MuEstimator&lt;TDistribution&gt;">
+    <Position X="5.75" Y="14.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAIAAAAAgAAgAAAAAAAAAAAACAAAAAAAQA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\MuEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.KsiEstimator&lt;TDistribution&gt;">
+    <Position X="3.25" Y="14.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgEAAAQiAAAAAAAAAAQEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\KsiEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.MixtureCoefficientsEstimator&lt;TDistribution&gt;">
+    <Position X="0.75" Y="21.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAgEAAAAAAAAAAAAAFAAEACAAAAAAABAAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\MixtureCoefficientsEstimator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.MixtureGammaEstimator&lt;TDistribution&gt;">
+    <Position X="0.75" Y="18.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAEAAAAAAAAAAAAgAAgAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\MixtureGammaEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.MixtureMuEstimator&lt;TDistribution&gt;">
+    <Position X="4.5" Y="21.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAEAQAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\MixtureMuEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.MixtureSigmaEstimator&lt;TDistribution&gt;">
+    <Position X="4.5" Y="18.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAJAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\MixtureSigmaEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Algorithms.SigmaEstimator&lt;TDistribution&gt;">
+    <Position X="8.5" Y="14.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAAgAAAAAAAAgAAAAAAAAAAAAAAIAAAAAIAAAA=</HashCode>
+      <FileName>Algorithms\VaribaleEstimationCalculator\SigmaEstimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="TA.MachineLearning.Algorithms.IBaumWelchAlgorithm&lt;TDistribution&gt;">
+    <Position X="10.25" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Algorithms\Baum-Welch\Base\IBaumWelchAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

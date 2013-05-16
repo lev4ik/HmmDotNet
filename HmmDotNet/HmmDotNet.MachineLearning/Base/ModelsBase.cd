@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TA.MachineLearning.Base.PredictionResultEvaluation&lt;T&gt;">
+    <Position X="5" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAEAAAAAQAAAAAAAAACAAAAAAAQAAAAQAAA=</HashCode>
+      <FileName>Base\PredictionResultEvaluation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.MachineLearning.Base.PredictionResult&lt;T&gt;">
+    <Position X="7.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Base\PredictionResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="TA.MachineLearning.Base.IGaussianMixtureModelState">
+    <Position X="3.5" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Base\IGaussianMixtureModelState.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IUnivariatePredictor&lt;T&gt;">
+    <Position X="4.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Base\IUnivariatePredictor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IHiddenMarkovModelState&lt;TDistribution&gt;">
+    <Position X="0.5" Y="1.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAiAAgAAAAAAAAAAQABABIAAAA=</HashCode>
+      <FileName>Base\IHiddenMarkovModelState.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IMachineLearningMultivariateModel">
+    <Position X="4.25" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Base\IMachineLearningMultivariateModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IMachineLearningUnivariateModel">
+    <Position X="7.25" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Base\IMachineLearningUnivariateModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IMultivariatePredictor&lt;T&gt;">
+    <Position X="7.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Base\IMultivariatePredictor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IObservation">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAQAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Base\IObservation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Base.IState">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Base\IState.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.MachineLearning.Algorithms.IParameterEstimations&lt;TDistribution&gt;">
+    <Position X="0.5" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAEQAABAAAAgAAAQAAAA=</HashCode>
+      <FileName>Base\IParameterEstimations.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.ICloneable" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.IEquatable&lt;T&gt;" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

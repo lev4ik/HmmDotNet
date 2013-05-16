@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TA.Mathematic.Matrix" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="0.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAQCQAAAAACAgEAUAEIBAAAAAAABICAAAGIAAAoAAAA=</HashCode>
+      <FileName>Matrix\Matrix.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Mathematic.Vector" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gAICAAAAAAAAQAAEAAAAAAAAAAAAQAAAgAAAAAAQAAA=</HashCode>
+      <FileName>Vector\Vector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Mathematic.Distance.Euclidean">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distance\Euclidean.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Mathematic.Distance.Mahalanobis">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distance\Mahalanobis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Mathematic.Extentions.LogExtention">
+    <Position X="11.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAgEAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extentions\LogExtention.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Mathematic.Extentions.MathExtention">
+    <Position X="5.25" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAgAAABAABAICAAAAAAAA=</HashCode>
+      <FileName>Extentions\MathExtention.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Mathematic.Extentions.MatrixExtentions">
+    <Position X="9.5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIKQAAAAAAAAAAAAIAAACAAAABAIQAFAAgCBAAAACQ=</HashCode>
+      <FileName>Extentions\MatrixExtentions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Mathematic.Extentions.VectorExtentions">
+    <Position X="7.25" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIKAAAAAAAAQAAAAAAAAAAAAAAAAAAFAAACAAAAgCQ=</HashCode>
+      <FileName>Extentions\VectorExtentions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.Mathematic.MatrixDecomposition.Cholesky" BaseTypeListCollapsed="true">
+    <Position X="18" Y="3.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAABAAIAgAAEKAAAAAACAAASAAAAAAAAAAAAA=</HashCode>
+      <FileName>Matrix\Decomposition\Cholesky.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Mathematic.MatrixDecomposition.LU" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAABAAIAgAAEKEAAAAACAAASAAAAABAAAAAAA=</HashCode>
+      <FileName>Matrix\Decomposition\LU.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.Mathematic.MatrixDecomposition.EigenvalueDecomposition">
+    <Position X="20.25" Y="3.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAiAAAABBAAAIiAAEMAAAAAACKIASAAFAAAAAJABCA=</HashCode>
+      <FileName>Matrix\Decomposition\EigenvalueDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="TA.Mathematic.IMatrix&lt;T&gt;">
+    <Position X="7.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAEAAAEIAAAAAAAABACAAAEAAAAoAAAA=</HashCode>
+      <FileName>Base\IMatrix.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.Mathematic.IVector&lt;T&gt;">
+    <Position X="2.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAICAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Base\IVector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TA.Mathematic.MatrixDecomposition.IDecomposition&lt;T&gt;">
+    <Position X="16.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAgAAEIAAAAAACAAASAAAAAAAAAAAAA=</HashCode>
+      <FileName>Base\IDecomposition.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
