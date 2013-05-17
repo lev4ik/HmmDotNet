@@ -18,3 +18,5 @@ In machine learning library currently I have implemented following models :
     2. Signle variate Gaussian emissions
     3. Multivariate Gaussian emissions
     4. Nultivaruate Gaussian Mixture emissions
+
+More information is found on project wiki https://github.com/lev4ik/HmmDotNet/wiki/_pages
