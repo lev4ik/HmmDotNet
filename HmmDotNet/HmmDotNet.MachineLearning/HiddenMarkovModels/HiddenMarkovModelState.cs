@@ -128,12 +128,41 @@ namespace HmmDotNet.MachineLearning.Estimators
 
         public bool Equals(IHiddenMarkovModel<TDistribution> other)
         {
-            // TODO : Check why Likelihood comparison is not working
-            if (!(VectorExtentions.EqualsTo(Pi, other.Pi) && TransitionProbabilityMatrix.EqualsTo(other.TransitionProbabilityMatrix) && N == other.N && M == other.M))// && Likelihood == other.Likelihood))
+            if (!(VectorExtentions.EqualsTo(Pi, other.Pi) && TransitionProbabilityMatrix.EqualsTo(other.TransitionProbabilityMatrix) && N == other.N && M == other.M && Likelihood == other.Likelihood))
             {
                 return false;
             }
             return !Emission.Where((t, i) => !t.Equals(other.Emission[i])).Any();
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var personObj = obj as HiddenMarkovModel<TDistribution>;
+            if (personObj == null)
+            {
+                return false;
+            }
+
+            return Equals(personObj);
+        }
+
+        public static bool operator == (HiddenMarkovModel<TDistribution> model1, HiddenMarkovModel<TDistribution> model2)
+        {
+            if ((object)model1 == null || ((object)model2) == null)
+                return Equals(model1, model2);
+
+            return model1.Equals(model2);
+        }
+
+        public static bool operator != (HiddenMarkovModel<TDistribution> model1, HiddenMarkovModel<TDistribution> model2)
+        {
+            if ((object)model1 == null || ((object)model2) == null)
+                return ! Equals(model1, model2);
+
+            return ! model1.Equals(model2);
         }
 
         #endregion IEquatable Implementation

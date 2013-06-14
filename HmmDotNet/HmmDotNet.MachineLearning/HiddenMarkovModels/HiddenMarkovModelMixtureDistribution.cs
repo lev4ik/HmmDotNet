@@ -20,8 +20,6 @@ namespace HmmDotNet.MachineLearning
 
         #region Private Members
 
-        private double _likelihood = double.NaN;
-
         private bool _initialize = false;
 
         #endregion Private Members
@@ -35,11 +33,6 @@ namespace HmmDotNet.MachineLearning
         }
 
         #endregion Constructor
-
-        public double Likelihood
-        {
-            get { return _likelihood; }
-        }
 
         private void Initialize(double[][] observations)
         {
@@ -80,7 +73,7 @@ namespace HmmDotNet.MachineLearning
             _pi = estimatedParameters.Pi;
             _transitionProbabilityMatrix = estimatedParameters.TransitionProbabilityMatrix;
             _emission = estimatedParameters.Emission;
-            _likelihood = estimatedParameters.Likelihood;
+            Likelihood = estimatedParameters.Likelihood;
         }
 
         #region Prediction Methods

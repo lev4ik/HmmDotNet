@@ -9,13 +9,6 @@ namespace HmmDotNet.MachineLearning
 {
     public class HiddenMarkovModelGaussianDistribution : HiddenMarkovModel<NormalDistribution>, IUnivariatePredictor<double>, IMachineLearningUnivariateModel
     {
-        #region Private Members
-
-        private double _likelihood = double.NaN;
-        private bool _isTrained = false;
-
-        #endregion Private Members
-
         #region Constructors
 
         public HiddenMarkovModelGaussianDistribution(IModelCreationParameters<NormalDistribution> parameters)
@@ -36,10 +29,6 @@ namespace HmmDotNet.MachineLearning
         /// <returns></returns>
         public PredictionResult Predict(double[] observations)
         {
-            if (!_isTrained)
-            {
-                throw new ApplicationException("Model is not trained , can't predict");
-            }
             const double tolerance = 0.01d;
             // TODO : Fix prediction
             return null;
@@ -55,19 +44,10 @@ namespace HmmDotNet.MachineLearning
         /// <returns></returns>
         public PredictionResult Predict(double[] observations, double[] weights)
         {
-            if (!_isTrained)
-            {
-                throw new ApplicationException("Model is not trained , can't predict");
-            }
             const double tolerance = 0.01d;
             //return new LikelihoodBasedNormalDistributionPredictor().Predict(observations, Clone() as HiddenMarkovModelGaussianDistribution, tolerance);
             // TODO : Fix prediction
             return null;
-        }
-
-        public double Likelihood
-        {
-            get { return _likelihood; }
         }
 
         public void Train(double[] observations)
@@ -83,8 +63,7 @@ namespace HmmDotNet.MachineLearning
             _pi = estimatedParameters.Pi;
             _transitionProbabilityMatrix = estimatedParameters.TransitionProbabilityMatrix;
             _emission = estimatedParameters.Emission as NormalDistribution[];
-            _likelihood = estimatedParameters.Likelihood;
-            _isTrained = true;
+            Likelihood = estimatedParameters.Likelihood;
         }
     }
 }

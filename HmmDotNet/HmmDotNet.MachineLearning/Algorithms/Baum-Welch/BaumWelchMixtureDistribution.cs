@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.MachineLearning.Estimators;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
@@ -98,7 +97,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _likelihoodDelta = Math.Abs(Math.Abs(_currentModel.Likelihood) - Math.Abs(_estimatedModel.Likelihood));
                 Debug.WriteLine("Iteration {3} , Current {0}, Estimate {1} Likelihood delta {2}", _currentModel.Likelihood, _estimatedModel.Likelihood, _likelihoodDelta, maxIterations);
             }
-            while (!_currentModel.Equals(_estimatedModel) && maxIterations > 0 && _likelihoodDelta > likelihoodTolerance);
+            while (_currentModel != _estimatedModel && maxIterations > 0 && _likelihoodDelta > likelihoodTolerance);
 
             return _estimatedModel;
         }

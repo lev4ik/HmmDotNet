@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.MachineLearning.Estimators;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
@@ -70,14 +69,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunForward(_observations, _currentModel);
                 forwardBackward.RunBackward(_observations, _currentModel);
 
-                // Calculate Gamma and Xi    
-                // TODO : Add summing over t for xi and gamma for future calculations in differen data structure
                 var parameters = new ParameterEstimations<IMultivariateDistribution>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
                 _gammaEstimator = new GammaEstimator<IMultivariateDistribution>(parameters, Normalized);
                 _ksiEstimator = new KsiEstimator<IMultivariateDistribution>(parameters, Normalized);
                 _muEstimator = new MuEstimator<IMultivariateDistribution>(_currentModel, _observations);
                 _sigmaEstimator = new SigmaEstimator<IMultivariateDistribution>(_currentModel, _observations);
-                // Estimate transition probabilities and start distribution
+
                 EstimatePi(_gammaEstimator.Gamma);
                 EstimateTransitionProbabilityMatrix(_gammaEstimator.Gamma, _ksiEstimator.Ksi, _observations.Count);
                 // Estimate observation probabilities
@@ -93,7 +90,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _likelihoodDelta = Math.Abs(Math.Abs(_currentModel.Likelihood) - Math.Abs(_estimatedModel.Likelihood));
                 Debug.WriteLine("Iteration {3} , Current {0}, Estimate {1} Likelihood delta {2}", _currentModel.Likelihood, _estimatedModel.Likelihood, _likelihoodDelta, maxIterations);
             }
-            while (!_currentModel.Equals(_estimatedModel) && maxIterations > 0 && _likelihoodDelta > likelihoodTolerance);
+            while (_currentModel != _estimatedModel && maxIterations > 0 && _likelihoodDelta > likelihoodTolerance);
 
             return _estimatedModel;
         }

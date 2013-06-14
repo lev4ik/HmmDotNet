@@ -12,13 +12,6 @@ namespace HmmDotNet.MachineLearning
 {
     public class HiddenMarkovModel : HiddenMarkovModel<DiscreteDistribution>, IMachineLearningUnivariateModel
     {
-        #region Private Members
-
-        private double _likelihood = double.NaN;
-        private bool _isTrained;
-
-        #endregion Private Members
-
         #region Constructors
 
         public HiddenMarkovModel(IModelCreationParameters<DiscreteDistribution> parameters)
@@ -55,10 +48,6 @@ namespace HmmDotNet.MachineLearning
             var predictor = new LikelihoodBasedPredictor();
             return predictor.Predict((IHiddenMarkovModel<IDistribution>)model, request);
         }
-        public double Likelihood
-        {
-            get { return _likelihood; }
-        }
 
         public void Train(double[] observations)
         {
@@ -73,13 +62,7 @@ namespace HmmDotNet.MachineLearning
             _pi = estimatedParameters.Pi;
             _transitionProbabilityMatrix = estimatedParameters.TransitionProbabilityMatrix;
             _emission = estimatedParameters.Emission;
-            _likelihood = estimatedParameters.Likelihood;
-            _isTrained = true;
-        }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
+            Likelihood = estimatedParameters.Likelihood;
         }
     }
 }

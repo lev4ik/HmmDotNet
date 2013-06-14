@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.MachineLearning.Estimators;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions.Univariate;
@@ -62,6 +61,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 if (!_estimatedModel.Likelihood.EqualsTo(0))
                 {
                     _currentModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });//new HiddenMarkovModelState<NormalDistribution>(_estimatedPi, _estimatedTransitionProbabilityMatrix, _estimatedEmissions);
+                    _currentModel.Normalized = Normalized;
                     _currentModel.Likelihood = _estimatedModel.Likelihood;
                 }
                 // Run Forward-Backward procedure
@@ -84,11 +84,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     _estimatedEmissions[j] = new NormalDistribution(muVector[j], sigmaVector[j]);
                 }
                 _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });//new HiddenMarkovModelState<NormalDistribution>(_estimatedPi, _estimatedTransitionProbabilityMatrix, _estimatedEmissions) { LogNormalized = _currentModel.LogNormalized };
+                _estimatedModel.Normalized = Normalized;//new HiddenMarkovModelState<IMultivariateDistribution>(_estimatedPi, _estimatedTransitionProbabilityMatrix, _estimatedEmissions) {LogNormalized = _currentModel.LogNormalized};
                 _estimatedModel.Likelihood = forwardBackward.RunForward(_observations, _estimatedModel);
                 _likelihoodDelta = Math.Abs(Math.Abs(_currentModel.Likelihood) - Math.Abs(_estimatedModel.Likelihood));
                 Debug.WriteLine("Iteration {3} , Current {0}, Estimate {1} Likelihood delta {2}", _currentModel.Likelihood, _estimatedModel.Likelihood, _likelihoodDelta, maxIterations);
             }
-            while (!_currentModel.Equals(_estimatedModel) && maxIterations > 0 && _likelihoodDelta > likelihoodTolerance);
+            while (_currentModel != _estimatedModel && maxIterations > 0 && _likelihoodDelta > likelihoodTolerance);
 
             return _estimatedModel;
         }
