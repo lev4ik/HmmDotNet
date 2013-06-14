@@ -6,7 +6,7 @@ namespace HmmDotNet.MachineLearning.Base
     /// <summary>
     ///     Hidden Markov Model
     /// </summary>
-    public interface IHiddenMarkovModelState<TDistribution> : ICloneable, IEquatable<IHiddenMarkovModelState<TDistribution>> where TDistribution : IDistribution
+    public interface IHiddenMarkovModel<TDistribution> : ICloneable, IEquatable<IHiddenMarkovModel<TDistribution>> where TDistribution : IDistribution
     {
         /// <summary>
         ///     Model Type

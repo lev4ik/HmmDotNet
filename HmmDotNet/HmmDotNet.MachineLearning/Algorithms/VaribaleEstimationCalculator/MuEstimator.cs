@@ -10,13 +10,13 @@ namespace HmmDotNet.MachineLearning.Algorithms
 {
     public class MuEstimator<TDistribution> where TDistribution : IDistribution
     {
-        public MuEstimator(IHiddenMarkovModelState<TDistribution> model, IList<IObservation> observations)
+        public MuEstimator(IHiddenMarkovModel<TDistribution> model, IList<IObservation> observations)
         {
             _model = model;
             _observations = observations;
         }
 
-        private readonly IHiddenMarkovModelState<TDistribution> _model;
+        private readonly IHiddenMarkovModel<TDistribution> _model;
 
         private readonly IList<IObservation> _observations;
 

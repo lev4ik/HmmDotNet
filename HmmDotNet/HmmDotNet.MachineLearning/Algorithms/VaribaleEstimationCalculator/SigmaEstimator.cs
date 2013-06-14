@@ -10,13 +10,13 @@ namespace HmmDotNet.MachineLearning.Algorithms
 {
     public class SigmaEstimator<TDistribution> where TDistribution : IDistribution
     {
-        public SigmaEstimator(IHiddenMarkovModelState<TDistribution> model, IList<IObservation> observations)
+        public SigmaEstimator(IHiddenMarkovModel<TDistribution> model, IList<IObservation> observations)
         {
             _model = model;
             _observations = observations;
         }
 
-        private readonly IHiddenMarkovModelState<TDistribution> _model;
+        private readonly IHiddenMarkovModel<TDistribution> _model;
 
         private readonly IList<IObservation> _observations;
 

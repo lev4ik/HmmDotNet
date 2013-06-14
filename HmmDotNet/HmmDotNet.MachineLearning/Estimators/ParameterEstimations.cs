@@ -11,9 +11,9 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private double[][] _coefficients;
         private readonly double[][] _alpha;
         private readonly double[][] _beta;
-        private readonly IHiddenMarkovModelState<TDistribution> _model;
+        private readonly IHiddenMarkovModel<TDistribution> _model;
 
-        public ParameterEstimations(IHiddenMarkovModelState<TDistribution> model, IList<IObservation> observations, double[][] alpha, double[][] beta)
+        public ParameterEstimations(IHiddenMarkovModel<TDistribution> model, IList<IObservation> observations, double[][] alpha, double[][] beta)
         {
             _model = model;
             _observations = observations;
@@ -91,7 +91,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         }
 
 
-        public IHiddenMarkovModelState<TDistribution> Model
+        public IHiddenMarkovModel<TDistribution> Model
         {
             get 
             {

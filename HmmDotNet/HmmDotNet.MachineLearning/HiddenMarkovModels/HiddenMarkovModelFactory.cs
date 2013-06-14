@@ -14,14 +14,14 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels
         /// <typeparam name="TDistribution"></typeparam>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static IHiddenMarkovModelState<TDistribution> GetModel<TDistribution>(IModelCreationParameters<TDistribution> parameters) where TDistribution : IDistribution
+        public static IHiddenMarkovModel<TDistribution> GetModel<TDistribution>(IModelCreationParameters<TDistribution> parameters) where TDistribution : IDistribution
         {
             if (typeof(TDistribution).Name == "Mixture`1")
             {
                 switch (typeof(TDistribution).GetGenericArguments()[0].FullName)
                 {
                     case "HmmDotNet.Statistics.Distributions.IMultivariateDistribution":
-                        return (IHiddenMarkovModelState<TDistribution>)new HiddenMarkovModelMixtureDistribution((IModelCreationParameters<Mixture<IMultivariateDistribution>>)parameters);
+                        return (IHiddenMarkovModel<TDistribution>)new HiddenMarkovModelMixtureDistribution((IModelCreationParameters<Mixture<IMultivariateDistribution>>)parameters);
                 }
             }
             else
@@ -29,11 +29,11 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels
                 switch (typeof(TDistribution).FullName)
                 {
                     case "HmmDotNet.Statistics.Distributions.IMultivariateDistribution":
-                        return (IHiddenMarkovModelState<TDistribution>)new HiddenMarkovModelMultivariateGaussianDistribution((IModelCreationParameters<IMultivariateDistribution>)parameters);
+                        return (IHiddenMarkovModel<TDistribution>)new HiddenMarkovModelMultivariateGaussianDistribution((IModelCreationParameters<IMultivariateDistribution>)parameters);
                     case "HmmDotNet.Statistics.Distributions.Univariate.DiscreteDistribution":
-                        return (IHiddenMarkovModelState<TDistribution>)new HiddenMarkovModel((IModelCreationParameters<DiscreteDistribution>)parameters);
+                        return (IHiddenMarkovModel<TDistribution>)new HiddenMarkovModel((IModelCreationParameters<DiscreteDistribution>)parameters);
                     case "HmmDotNet.Statistics.Distributions.Univariate.NormalDistribution":
-                        return (IHiddenMarkovModelState<TDistribution>)new HiddenMarkovModelGaussianDistribution((IModelCreationParameters<Statistics.Distributions.Univariate.NormalDistribution>)parameters);                    
+                        return (IHiddenMarkovModel<TDistribution>)new HiddenMarkovModelGaussianDistribution((IModelCreationParameters<Statistics.Distributions.Univariate.NormalDistribution>)parameters);                    
                 }                
             }
             throw new InvalidOperationException("Type passed for parameter T is not supported with any implemented Hidden Markov Model");

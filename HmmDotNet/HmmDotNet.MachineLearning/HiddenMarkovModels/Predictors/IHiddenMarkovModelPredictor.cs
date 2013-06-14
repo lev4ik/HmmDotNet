@@ -14,7 +14,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
         /// <param name="model">Trained model for prediction</param>
         /// <param name="request">Prediction request data structure</param>
         /// <returns></returns>
-        IPredictionResult Predict<TDistribution>(IHiddenMarkovModelState<TDistribution> model, IPredictionRequest request)
+        IPredictionResult Predict<TDistribution>(IHiddenMarkovModel<TDistribution> model, IPredictionRequest request)
             where TDistribution : IDistribution;
 
         /// <summary>

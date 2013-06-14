@@ -10,7 +10,7 @@ using HmmDotNet.Statistics.Distributions.Univariate;
 
 namespace HmmDotNet.MachineLearning
 {
-    public class HiddenMarkovModel : HiddenMarkovModelState<DiscreteDistribution>, IMachineLearningUnivariateModel
+    public class HiddenMarkovModel : HiddenMarkovModel<DiscreteDistribution>, IMachineLearningUnivariateModel
     {
         #region Private Members
 
@@ -39,7 +39,7 @@ namespace HmmDotNet.MachineLearning
             request.Tolerance = 0.01;
 
             var predictor = new LikelihoodBasedPredictor();
-            return predictor.Predict((IHiddenMarkovModelState<IDistribution>)model, request);
+            return predictor.Predict((IHiddenMarkovModel<IDistribution>)model, request);
         }
 
         public IPredictionResult Predict(double[][] training, double[][] test, double[] weights, int numberOfDays)
@@ -53,7 +53,7 @@ namespace HmmDotNet.MachineLearning
             request.Tolerance = 0.01;
 
             var predictor = new LikelihoodBasedPredictor();
-            return predictor.Predict((IHiddenMarkovModelState<IDistribution>)model, request);
+            return predictor.Predict((IHiddenMarkovModel<IDistribution>)model, request);
         }
         public double Likelihood
         {

@@ -19,8 +19,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private MuEstimator<NormalDistribution> _muEstimator;
         private SigmaEstimator<NormalDistribution> _sigmaEstimator; 
  
-        private IHiddenMarkovModelState<NormalDistribution> _estimatedModel;
-        private IHiddenMarkovModelState<NormalDistribution> _currentModel; 
+        private IHiddenMarkovModel<NormalDistribution> _estimatedModel;
+        private IHiddenMarkovModel<NormalDistribution> _currentModel; 
        
         private readonly IList<IObservation> _observations;
 
@@ -30,7 +30,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         #region Constructors
 
-        public BaumWelchGaussianDistribution(IList<IObservation> observations, IHiddenMarkovModelState<NormalDistribution> model): base(model)
+        public BaumWelchGaussianDistribution(IList<IObservation> observations, IHiddenMarkovModel<NormalDistribution> model): base(model)
         {
             _currentModel = model;
             _observations = observations;
@@ -51,7 +51,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         public bool Normalized { get; set; }
 
-        public IHiddenMarkovModelState<NormalDistribution> Run(int maxIterations, double likelihoodTolerance)
+        public IHiddenMarkovModel<NormalDistribution> Run(int maxIterations, double likelihoodTolerance)
         {
             // Initialize responce object
             var forwardBackward = new ForwardBackward(Normalized);

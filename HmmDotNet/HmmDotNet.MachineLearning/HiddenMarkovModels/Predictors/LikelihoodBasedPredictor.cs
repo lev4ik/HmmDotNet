@@ -11,7 +11,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
 {
     public class LikelihoodBasedPredictor : IHiddenMarkovModelPredictor
     {
-        public IPredictionResult Predict<TDistribution>(IHiddenMarkovModelState<TDistribution> model, IPredictionRequest request)
+        public IPredictionResult Predict<TDistribution>(IHiddenMarkovModel<TDistribution> model, IPredictionRequest request)
             where TDistribution : IDistribution
         {
             var trainingSet = (double[][])request.TrainingSet.Clone();
@@ -55,7 +55,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
 
         #region Private Methods
 
-        private IList<ObservationWithLikelihood<double[]>> FindMostSimilarObservations<TDistribution>(IHiddenMarkovModelState<TDistribution> model, double[][] trainingSet, double yesterdayLikelihood, double tolerance)
+        private IList<ObservationWithLikelihood<double[]>> FindMostSimilarObservations<TDistribution>(IHiddenMarkovModel<TDistribution> model, double[][] trainingSet, double yesterdayLikelihood, double tolerance)
             where TDistribution : IDistribution
         {
             var N = trainingSet.Length;
@@ -99,7 +99,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
             return result;
         }
 
-        private double[] PredictNextValue<TDistribution>(IHiddenMarkovModelState<TDistribution> model, IPredictionRequest request, double[][] trainingSet)
+        private double[] PredictNextValue<TDistribution>(IHiddenMarkovModel<TDistribution> model, IPredictionRequest request, double[][] trainingSet)
             where TDistribution : IDistribution
         {
             var N = trainingSet.Length;

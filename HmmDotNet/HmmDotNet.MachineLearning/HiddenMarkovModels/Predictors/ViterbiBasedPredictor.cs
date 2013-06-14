@@ -22,7 +22,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
         /// <param name="model"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IPredictionResult Predict<TDistribution>(IHiddenMarkovModelState<TDistribution> model, IPredictionRequest request) where TDistribution : IDistribution
+        public IPredictionResult Predict<TDistribution>(IHiddenMarkovModel<TDistribution> model, IPredictionRequest request) where TDistribution : IDistribution
         {
             NumberOfIterations = request.NumberOfTrainingIterations;
             LikelihoodTolerance = request.TrainingLikelihoodTolerance;
@@ -69,7 +69,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
 
         #region Private Method
 
-        private double[] PredictNextValue<TDistribution>(IHiddenMarkovModelState<TDistribution> model, double[][] trainingSet) where TDistribution : IDistribution
+        private double[] PredictNextValue<TDistribution>(IHiddenMarkovModel<TDistribution> model, double[][] trainingSet) where TDistribution : IDistribution
         {
             var alg = new Viterbi(model.Normalized);
             var mpp = alg.Run(Helper.Convert(trainingSet), model.GetStates(), model.Pi, model.TransitionProbabilityMatrix, model.GetEmissions());

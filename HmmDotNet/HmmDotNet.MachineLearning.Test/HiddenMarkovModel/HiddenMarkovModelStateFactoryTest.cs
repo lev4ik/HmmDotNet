@@ -19,7 +19,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.HiddenMarkovModel
             var parameters = new ModelCreationParameters<IMultivariateDistribution>() { NumberOfStates = NumberOfStates };
             var model = HiddenMarkovModelStateFactory.GetState(parameters);
 
-            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModelState<IMultivariateDistribution>));
+            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModel<IMultivariateDistribution>));
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.HiddenMarkovModel
             var parameters = new ModelCreationParameters<DiscreteDistribution>() { NumberOfStates = NumberOfStates };
             var model = HiddenMarkovModelStateFactory.GetState(parameters);
 
-            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModelState<DiscreteDistribution>));
+            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModel<DiscreteDistribution>));
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.HiddenMarkovModel
             var parameters = new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates };
             var model = HiddenMarkovModelStateFactory.GetState(parameters);
 
-            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModelState<Mixture<IMultivariateDistribution>>));
+            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModel<Mixture<IMultivariateDistribution>>));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.HiddenMarkovModel
             var parameters = new ModelCreationParameters<HmmDotNet.Statistics.Distributions.Multivariate.NormalDistribution>() { NumberOfStates = NumberOfStates };
             var model = HiddenMarkovModelStateFactory.GetState(parameters);
 
-            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModelState<HmmDotNet.Statistics.Distributions.Multivariate.NormalDistribution>));
+            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModel<HmmDotNet.Statistics.Distributions.Multivariate.NormalDistribution>));
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.HiddenMarkovModel
             var parameters = new ModelCreationParameters<HmmDotNet.Statistics.Distributions.Univariate.NormalDistribution>() { NumberOfStates = NumberOfStates };
             var model = HiddenMarkovModelStateFactory.GetState(parameters);
 
-            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModelState<HmmDotNet.Statistics.Distributions.Univariate.NormalDistribution>));
+            Assert.IsInstanceOfType(model, typeof(HiddenMarkovModel<HmmDotNet.Statistics.Distributions.Univariate.NormalDistribution>));
         }
     }
 }

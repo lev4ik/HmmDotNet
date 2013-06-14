@@ -7,7 +7,7 @@ using HmmDotNet.Statistics.Distributions.Univariate;
 
 namespace HmmDotNet.MachineLearning
 {
-    public class HiddenMarkovModelGaussianDistribution : HiddenMarkovModelState<NormalDistribution>, IUnivariatePredictor<double>, IMachineLearningUnivariateModel
+    public class HiddenMarkovModelGaussianDistribution : HiddenMarkovModel<NormalDistribution>, IUnivariatePredictor<double>, IMachineLearningUnivariateModel
     {
         #region Private Members
 

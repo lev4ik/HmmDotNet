@@ -18,7 +18,7 @@ namespace HmmDotNet.MachineLearning.Estimators
         PiAndTpmAndEmissions
     }
 
-    public class HiddenMarkovModelState<TDistribution> : IHiddenMarkovModelState<TDistribution> where TDistribution : IDistribution
+    public class HiddenMarkovModel<TDistribution> : IHiddenMarkovModel<TDistribution> where TDistribution : IDistribution
     {
         #region Private Members
 
@@ -32,7 +32,7 @@ namespace HmmDotNet.MachineLearning.Estimators
 
         #region Constructors
 
-        public HiddenMarkovModelState(IModelCreationParameters<TDistribution> parameters)
+        public HiddenMarkovModel(IModelCreationParameters<TDistribution> parameters)
         {
             switch (GetModelCreationType(parameters))
             {
@@ -126,7 +126,7 @@ namespace HmmDotNet.MachineLearning.Estimators
 
         #region IEquatable Implementation
 
-        public bool Equals(IHiddenMarkovModelState<TDistribution> other)
+        public bool Equals(IHiddenMarkovModel<TDistribution> other)
         {
             // TODO : Check why Likelihood comparison is not working
             if (!(VectorExtentions.EqualsTo(Pi, other.Pi) && TransitionProbabilityMatrix.EqualsTo(other.TransitionProbabilityMatrix) && N == other.N && M == other.M))// && Likelihood == other.Likelihood))

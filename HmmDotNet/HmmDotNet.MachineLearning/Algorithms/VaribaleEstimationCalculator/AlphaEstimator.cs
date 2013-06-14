@@ -7,14 +7,14 @@ namespace HmmDotNet.MachineLearning.Algorithms
 {
     public class AlphaEstimator<T> : BaseEstimator where T : IDistribution
     {
-        public AlphaEstimator(IHiddenMarkovModelState<T> model, IList<IObservation> observations, bool logNormalized)
+        public AlphaEstimator(IHiddenMarkovModel<T> model, IList<IObservation> observations, bool logNormalized)
         {
             LogNormalized = logNormalized;
             _model = model;
             _observations = observations;
         }
 
-        private readonly IHiddenMarkovModelState<T> _model;
+        private readonly IHiddenMarkovModel<T> _model;
         private readonly IList<IObservation> _observations;
 
         private double[][] _alpha;

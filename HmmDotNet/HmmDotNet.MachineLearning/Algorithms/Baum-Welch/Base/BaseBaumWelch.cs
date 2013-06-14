@@ -11,14 +11,14 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         protected readonly double[] _estimatedPi;
         protected readonly double[][] _estimatedTransitionProbabilityMatrix;
-        protected readonly IHiddenMarkovModelState<TDistribution> _model;
+        protected readonly IHiddenMarkovModel<TDistribution> _model;
         protected double _likelihoodDelta = 0d;
 
         #endregion Variables
 
         #region Constructors
 
-        protected BaseBaumWelch(IHiddenMarkovModelState<TDistribution> model)
+        protected BaseBaumWelch(IHiddenMarkovModel<TDistribution> model)
         {
             _model = model;
             _estimatedPi = new double[_model.N];

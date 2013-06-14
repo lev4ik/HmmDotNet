@@ -12,7 +12,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         double[][] Beta { get; }
 
-        IHiddenMarkovModelState<TDistribution> Model { get; }       
+        IHiddenMarkovModel<TDistribution> Model { get; }       
 
         double[][] Coefficients { get; }
 

@@ -17,8 +17,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private GammaEstimator<DiscreteDistribution> _gammaEstimator;
         private KsiEstimator<DiscreteDistribution> _ksiEstimator;
 
-        private IHiddenMarkovModelState<DiscreteDistribution> _estimatedModel;
-        private IHiddenMarkovModelState<DiscreteDistribution> _currentModel; 
+        private IHiddenMarkovModel<DiscreteDistribution> _estimatedModel;
+        private IHiddenMarkovModel<DiscreteDistribution> _currentModel; 
        
         private readonly IList<IObservation> _observations;
         
@@ -31,7 +31,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         #region Constructors
 
-        public BaumWelch(IList<IObservation> observations, IHiddenMarkovModelState<DiscreteDistribution> model, IList<IObservation> symbols) : base(model)
+        public BaumWelch(IList<IObservation> observations, IHiddenMarkovModel<DiscreteDistribution> model, IList<IObservation> symbols) : base(model)
         {
             _currentModel = model;
             
@@ -64,7 +64,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         public bool Normalized { get; set; }
 
-        public IHiddenMarkovModelState<DiscreteDistribution> Run(int maxIterations, double likelihoodTolerance)
+        public IHiddenMarkovModel<DiscreteDistribution> Run(int maxIterations, double likelihoodTolerance)
         {
             // Initialize responce object
             var forwardBackward = new ForwardBackward(Normalized);

@@ -12,7 +12,7 @@ using HmmDotNet.Statistics.Distributions.Multivariate;
 
 namespace HmmDotNet.MachineLearning
 {
-    public class HiddenMarkovModelMultivariateGaussianDistribution : HiddenMarkovModelState<IMultivariateDistribution>, IMachineLearningMultivariateModel
+    public class HiddenMarkovModelMultivariateGaussianDistribution : HiddenMarkovModel<IMultivariateDistribution>, IMachineLearningMultivariateModel
     {
         private const double PREDICTION_LIKELIHOOD_TOLERANCE = 1d;
 

@@ -14,7 +14,7 @@ using HmmDotNet.Statistics.Distributions.Multivariate;
 
 namespace HmmDotNet.MachineLearning
 {
-    public class HiddenMarkovModelMixtureDistribution : HiddenMarkovModelState<Mixture<IMultivariateDistribution>>, IMachineLearningMultivariateModel
+    public class HiddenMarkovModelMixtureDistribution : HiddenMarkovModel<Mixture<IMultivariateDistribution>>, IMachineLearningMultivariateModel
     {
         private const double PREDICTION_LIKELIHOOD_TOLERANCE = 1d;
 

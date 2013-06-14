@@ -21,8 +21,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private SigmaEstimator<IMultivariateDistribution> _sigmaEstimator; 
 
         private readonly IList<IObservation> _observations;
-        private IHiddenMarkovModelState<IMultivariateDistribution> _estimatedModel;
-        private IHiddenMarkovModelState<IMultivariateDistribution> _currentModel;
+        private IHiddenMarkovModel<IMultivariateDistribution> _estimatedModel;
+        private IHiddenMarkovModel<IMultivariateDistribution> _currentModel;
 
         private readonly IMultivariateDistribution[] _estimatedEmissions;
 
@@ -31,7 +31,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         #region Constructors
 
         [DebuggerStepThrough]
-        public BaumWelchMultivariateDistribution(IList<IObservation> observations, IHiddenMarkovModelState<IMultivariateDistribution> model): base(model)
+        public BaumWelchMultivariateDistribution(IList<IObservation> observations, IHiddenMarkovModel<IMultivariateDistribution> model): base(model)
         {
             _currentModel = model;
             _observations = observations;
@@ -52,7 +52,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         public bool Normalized { get; set; }
 
-        public IHiddenMarkovModelState<IMultivariateDistribution> Run(int maxIterations, double likelihoodTolerance)
+        public IHiddenMarkovModel<IMultivariateDistribution> Run(int maxIterations, double likelihoodTolerance)
         {
             // Initialize responce object
             var forwardBackward = new ForwardBackward(Normalized);

@@ -40,7 +40,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         #endregion Public Variables
 
         public double RunForward<TEmmisionType>(IList<IObservation> observations, 
-                                                IHiddenMarkovModelState<TEmmisionType> model) where TEmmisionType : IDistribution
+                                                IHiddenMarkovModel<TEmmisionType> model) where TEmmisionType : IDistribution
         {
             var alphaEstimator = new AlphaEstimator<TEmmisionType>(model, 
                                                                    observations, 
@@ -65,7 +65,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
             return result;
         }
 
-        public double RunBackward<TEmmisionType>(IList<IObservation> observations, IHiddenMarkovModelState<TEmmisionType> model) where TEmmisionType : IDistribution
+        public double RunBackward<TEmmisionType>(IList<IObservation> observations, IHiddenMarkovModel<TEmmisionType> model) where TEmmisionType : IDistribution
         {
             var betaEstimator = new BetaEstimator<TEmmisionType>(model, observations, Normalized);
             _beta = betaEstimator.Beta;

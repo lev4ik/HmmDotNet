@@ -27,7 +27,7 @@ namespace HmmDotNet.MachineLearning
             return result;
         }
 
-        public static IList<IState> GetStates<TDistribution>(this IHiddenMarkovModelState<TDistribution> model) where TDistribution : IDistribution
+        public static IList<IState> GetStates<TDistribution>(this IHiddenMarkovModel<TDistribution> model) where TDistribution : IDistribution
         {
             var result = new List<IState>();
 
@@ -38,7 +38,7 @@ namespace HmmDotNet.MachineLearning
             return result;
         }
 
-        public static IDistribution[] GetEmissions<TDistribution>(this IHiddenMarkovModelState<TDistribution> model) where TDistribution : IDistribution
+        public static IDistribution[] GetEmissions<TDistribution>(this IHiddenMarkovModel<TDistribution> model) where TDistribution : IDistribution
         {
             var result = new IDistribution[model.N];
 

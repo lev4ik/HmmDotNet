@@ -18,8 +18,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private KsiEstimator<Mixture<IMultivariateDistribution>> _ksiEstimator;
 
         private readonly IList<IObservation> _observations;
-        private IHiddenMarkovModelState<Mixture<IMultivariateDistribution>> _estimatedModel;
-        private IHiddenMarkovModelState<Mixture<IMultivariateDistribution>> _currentModel;
+        private IHiddenMarkovModel<Mixture<IMultivariateDistribution>> _estimatedModel;
+        private IHiddenMarkovModel<Mixture<IMultivariateDistribution>> _currentModel;
 
         private Mixture<IMultivariateDistribution>[] _estimatedEmissions;
 
@@ -27,7 +27,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         #region Constructors
 
-        public BaumWelchMixtureDistribution(IList<IObservation> observations, IHiddenMarkovModelState<Mixture<IMultivariateDistribution>> model): base(model)
+        public BaumWelchMixtureDistribution(IList<IObservation> observations, IHiddenMarkovModel<Mixture<IMultivariateDistribution>> model): base(model)
         {
             _observations = observations;
             _currentModel = model;
@@ -49,7 +49,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         public bool Normalized { get; set; }
 
-        public IHiddenMarkovModelState<Mixture<IMultivariateDistribution>> Run(int maxIterations, double likelihoodTolerance)
+        public IHiddenMarkovModel<Mixture<IMultivariateDistribution>> Run(int maxIterations, double likelihoodTolerance)
         {
             // Initialize responce object            
             var forwardBackward = new ForwardBackward(Normalized);

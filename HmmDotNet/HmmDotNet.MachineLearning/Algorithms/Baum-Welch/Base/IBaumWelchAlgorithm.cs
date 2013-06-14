@@ -14,6 +14,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
         ///     Run until the algorithms convired, both HMM's are equesl or while there is a change in P(O|HMM1) > P(O|HMM)
         /// </summary>
         /// <returns></returns>
-        IHiddenMarkovModelState<TDistribution> Run(int maxIterations, double likelihoodTolerance);       
+        IHiddenMarkovModel<TDistribution> Run(int maxIterations, double likelihoodTolerance);       
     }
 }
