@@ -1,6 +1,7 @@
 ﻿using HmmDotNet.MachineLearning.Algorithms;
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.MachineLearning.GeneralPredictors;
+using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
 using HmmDotNet.Statistics.Distributions.Multivariate;
 
@@ -79,7 +80,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
 
             return prediction;
         }
-
+        
         private double[] CalculatePredictionValue<TDistribution>(TDistribution emission, double[][] trainingSet) where TDistribution : IDistribution
         {
             var result = new double[trainingSet[0].Length];
@@ -89,6 +90,10 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
                 {
                     case "TA.Statistics.Distributions.IMultivariateDistribution":
                         var e = emission as Mixture<IMultivariateDistribution>;
+                        for (var i = 0; i < e.Components.Length; i++)
+                        {
+                            result = result.Add(e.Components[i].Mean.Product(e.Coefficients[i]));
+                        }
                         result = e.Mean;
                         break;
                 }

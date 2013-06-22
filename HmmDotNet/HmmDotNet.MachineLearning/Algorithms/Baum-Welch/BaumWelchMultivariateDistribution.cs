@@ -9,7 +9,6 @@ using HmmDotNet.Statistics.Distributions.Multivariate;
 
 namespace HmmDotNet.MachineLearning.Algorithms
 {
-
     public class BaumWelchMultivariateDistribution : BaseBaumWelch<IMultivariateDistribution>, IBaumWelchAlgorithm<IMultivariateDistribution>
     {
         #region Private Members
@@ -54,8 +53,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         public IHiddenMarkovModel<IMultivariateDistribution> Run(int maxIterations, double likelihoodTolerance)
         {
             // Initialize responce object
-            var forwardBackward = new ForwardBackward(Normalized);
-     
+            var forwardBackward = new ForwardBackward(Normalized);     
             do
             {
                 maxIterations--;

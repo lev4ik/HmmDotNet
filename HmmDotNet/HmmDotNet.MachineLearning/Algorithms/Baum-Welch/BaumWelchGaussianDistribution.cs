@@ -8,7 +8,6 @@ using HmmDotNet.Statistics.Distributions.Univariate;
 
 namespace HmmDotNet.MachineLearning.Algorithms
 {
-    // TODO : Calculate alpha[t][j].AlphaValue * beta[t][j].BetaValue once
     public class BaumWelchGaussianDistribution : BaseBaumWelch<NormalDistribution>, IBaumWelchAlgorithm<NormalDistribution>
     {
         #region Private Members
@@ -53,8 +52,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         public IHiddenMarkovModel<NormalDistribution> Run(int maxIterations, double likelihoodTolerance)
         {
             // Initialize responce object
-            var forwardBackward = new ForwardBackward(Normalized);
-            
+            var forwardBackward = new ForwardBackward(Normalized);            
             do
             {
                 maxIterations--;

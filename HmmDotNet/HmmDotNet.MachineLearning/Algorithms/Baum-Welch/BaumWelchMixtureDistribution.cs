@@ -52,7 +52,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
         {
             // Initialize responce object            
             var forwardBackward = new ForwardBackward(Normalized);
-
             do
             {
                 maxIterations--;

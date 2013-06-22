@@ -8,7 +8,6 @@ using HmmDotNet.Statistics.Distributions.Univariate;
 
 namespace HmmDotNet.MachineLearning.Algorithms
 {
-    // TODO : Calculate alpha[t][j].AlphaValue * beta[t][j].BetaValue once
     public class BaumWelch : BaseBaumWelch<DiscreteDistribution>, IBaumWelchAlgorithm<DiscreteDistribution>
     {
         #region Private Members
