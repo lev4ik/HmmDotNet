@@ -1,7 +1,7 @@
 ﻿namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base
 {
-    public interface IVariableEstimator<out T>
+    public interface IVariableEstimator<out T, in P> where P : IEstimationParameters
     {
-        T Estimate(bool normalized);
+        T Estimate(P parameters);
     }
 }

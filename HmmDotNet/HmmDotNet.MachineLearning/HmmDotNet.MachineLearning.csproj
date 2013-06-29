@@ -50,9 +50,12 @@
     <Compile Include="Algorithms\Forward-Backward\ForwardBackward.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\AlphaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\BaseEstimator.cs" />
+    <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\IEstimationParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\INormalizedEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\IVariableEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\BetaEstimator.cs" />
+    <Compile Include="Algorithms\VaribaleEstimationCalculator\EstimationParameters\AlphaBetaTransitionProbabiltyMatrixParameters.cs" />
+    <Compile Include="Algorithms\VaribaleEstimationCalculator\EstimationParameters\KsiGammaTransitionProbabilityMatrixParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\GammaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\KsiEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\MixtureCoefficientsEstimator.cs" />

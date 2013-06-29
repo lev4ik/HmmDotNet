@@ -1,69 +1,92 @@
 ﻿using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
 
 namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator
 {
-    public class TransitionProbabilityEstimator<TDistribution> : IVariableEstimator<double[][]> where TDistribution : IDistribution
+    public class TransitionProbabilityEstimator<TDistribution> : IVariableEstimator<double[][], AlphaBetaTransitionProbabiltyMatrixParameters<TDistribution>>,
+                                                                 IVariableEstimator<double[][], KsiGammaTransitionProbabilityMatrixParameters<TDistribution>> 
+                                                                 where TDistribution : IDistribution
     {
-        private readonly double[][] _alpha;
-        private readonly double[][] _beta;
-        private readonly double[][] _transitionProbabilityMatrix;
-        private readonly TDistribution[] _emission;
-        private readonly double[][] _observations;
-        private readonly double[] _weights;
-
         private double[][] _estimatedTransitionProbabilityMatrix;
 
-        public TransitionProbabilityEstimator(double[][] alpha, double[][] beta, double[][] transitionProbabilityMatrix, TDistribution[] emission, double[][] observations, double[] weights)
+        private double CalculateTransitionProbabilityMatrixEntry(double nominator, double denominator, bool normalized)
         {
-            _alpha = alpha;
-            _beta = beta; 
-            _transitionProbabilityMatrix = transitionProbabilityMatrix;
-            _emission = emission;
-            _observations = observations;
-            _weights = weights;
+            if (denominator.EqualsToZero())
+            {
+                return 0;
+            }
+            return (normalized) ? LogExtention.eExp(LogExtention.eLnProduct(nominator, -denominator)) : nominator / denominator;
         }
 
-        public double[][] Estimate(bool normalized)
+        public double[][] Estimate(AlphaBetaTransitionProbabiltyMatrixParameters<TDistribution> parameters)
         {
             if (_estimatedTransitionProbabilityMatrix != null)
             {
-                return _transitionProbabilityMatrix;
+                return _estimatedTransitionProbabilityMatrix;
             }
-            var T = _observations.Length;
-            var N = _emission.Length;
+            var T = parameters.Observations.Length;
 
-            _estimatedTransitionProbabilityMatrix = new double[N][];
+            _estimatedTransitionProbabilityMatrix = new double[parameters.Model.N][];
 
-            for (var i = 0; i < N; i++)
+            for (var i = 0; i < parameters.Model.N; i++)
             {
-                _estimatedTransitionProbabilityMatrix[i] = new double[N];
-                for (var j = 0; j < N; j++)
+                _estimatedTransitionProbabilityMatrix[i] = new double[parameters.Model.N];
+                for (var j = 0; j < parameters.Model.N; j++)
                 {
-                    var nominator = (normalized) ? double.NaN : 0.0d;
-                    var denominator = (normalized) ? double.NaN : 0.0d;
-                    for (var t = 0; t < T; t++)
+                    double nominator = (parameters.Normalized) ? double.NaN : 0.0d, denominator = (parameters.Normalized) ? double.NaN : 0.0d;
+                    for (var t = 0; t < T - 1; t++)
                     {
-                        nominator = CalculateNominatorForTimet(nominator, i, j, t, normalized);
-                        denominator = CalculateDenominatorForTimet(denominator, i, j, t, normalized);
+                        var probability = parameters.Model.Emission[j].ProbabilityDensityFunction(parameters.Observations[t + 1]);
+                        if (parameters.Normalized)
+                        {
+                            nominator = LogExtention.eLnSum(nominator, LogExtention.eLnProduct(parameters.Weights[t], LogExtention.eLnProduct(parameters.Alpha[t][i], LogExtention.eLnProduct(LogExtention.eLn(parameters.Model.TransitionProbabilityMatrix[i][j]), LogExtention.eLnProduct(LogExtention.eLn(probability), parameters.Beta[t + 1][j])))));
+                            denominator = LogExtention.eLnSum(denominator, LogExtention.eLnProduct(parameters.Weights[t], LogExtention.eLnProduct(parameters.Alpha[t][i], parameters.Beta[t][j])));
+                        }
+                        else
+                        {
+                            nominator += parameters.Weights[t] * parameters.Alpha[t][i] * parameters.Model.TransitionProbabilityMatrix[i][j] * probability * parameters.Beta[t + 1][j];
+                            denominator += parameters.Weights[t] * parameters.Alpha[t][i] * parameters.Beta[t][j];
+                        }                        
                     }
-                    _estimatedTransitionProbabilityMatrix[i][j] = nominator / denominator;
+                    _estimatedTransitionProbabilityMatrix[i][j] = CalculateTransitionProbabilityMatrixEntry(nominator, denominator, parameters.Normalized);
                 }
             }
             return _estimatedTransitionProbabilityMatrix;
         }
 
-        private double CalculateNominatorForTimet(double nominator, int i, int j, int t, bool normalized)
+        public double[][] Estimate(KsiGammaTransitionProbabilityMatrixParameters<TDistribution> parameters)
         {
-            return (normalized)
-                       ? LogExtention.eLnSum(nominator, LogExtention.eLnProduct(_weights[t], LogExtention.eLnProduct(_alpha[i][t], LogExtention.eLnProduct(_transitionProbabilityMatrix[i][j], LogExtention.eLnProduct(_emission[i].ProbabilityDensityFunction(_observations[t]), _beta[j][t])))))
-                       : nominator + _weights[t] * _alpha[i][t] * _transitionProbabilityMatrix[i][j] * _emission[i].ProbabilityDensityFunction(_observations[t]) * _beta[j][t];
-        }
+            if (_estimatedTransitionProbabilityMatrix != null)
+            {
+                return _estimatedTransitionProbabilityMatrix;
+            }
+            _estimatedTransitionProbabilityMatrix = new double[parameters.Model.N][];
 
-        private double CalculateDenominatorForTimet(double denominator, int i, int j, int t, bool normalized)
-        {
-            return (normalized) ? LogExtention.eLnSum(denominator, LogExtention.eLnProduct(_weights[t], LogExtention.eLnProduct(_alpha[i][t] , _beta[j][t]))) : denominator + _weights[t] * _alpha[i][t] * _beta[j][t];
+            for (var i = 0; i < parameters.Model.N; i++)
+            {
+                _estimatedTransitionProbabilityMatrix[i] = new double[parameters.Model.N];
+                for (var j = 0; j < parameters.Model.N; j++)
+                {
+                    double denominator = (parameters.Model.Normalized) ? double.NaN : 0, nominator = (parameters.Model.Normalized) ? double.NaN : 0;
+                    for (var t = 0; t < parameters.T - 1; t++)
+                    {
+                        if (parameters.Model.Normalized)
+                        {
+                            nominator = LogExtention.eLnSum(nominator, parameters.Ksi[t][i, j]);
+                            denominator = LogExtention.eLnSum(denominator, parameters.Gamma[t][i]);
+                        }
+                        else
+                        {
+                            nominator += parameters.Ksi[t][i, j];
+                            denominator += parameters.Gamma[t][i];
+                        }
+                    }
+                    _estimatedTransitionProbabilityMatrix[i][j] = CalculateTransitionProbabilityMatrixEntry(nominator, denominator, parameters.Normalized);
+                }
+            }
+            return _estimatedTransitionProbabilityMatrix;
         }
     }
 }

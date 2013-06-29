@@ -76,13 +76,5 @@ namespace HmmDotNet.MachineLearning.Test
             Assert.AreEqual(prediction.Predicted[0][2], 32.24);
             Assert.AreEqual(prediction.Predicted[0][3], 33.03);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ApplicationException), "Gaussian Model need to be trained before predicting.")]
-        public void TestPredcitionException()
-        {
-            var model = new GaussianMixtureModel(_coefficients, _distributions);
-            model.Predict(_observations, _weights);            
-        }
     }
 }

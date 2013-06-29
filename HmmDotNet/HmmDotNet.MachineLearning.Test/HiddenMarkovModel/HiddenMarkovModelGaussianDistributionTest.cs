@@ -66,24 +66,5 @@ namespace HmmDotNet.MachineLearning.Test
                 }
             }
         }
-
-        [TestMethod]
-        public void Train_Sp500Data()
-        {
-            var hmm = (HiddenMarkovModelGaussianDistribution)HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<NormalDistribution>() { Pi =_initialPi, TransitionProbabilityMatrix = _initialTransitionProbabilityMatrix, Emissions = _initialEmission });//new HiddenMarkovModelGaussianDistribution(_initialPi,_initialTransitionProbabilityMatrix, _initialEmission);
-
-            hmm.Train(_observationClose);
-            Assert.Fail("Implement");
-        }
-
-        [TestMethod]
-        public void Predict_Sp500Data()
-        {
-            var hmm = (HiddenMarkovModelGaussianDistribution)HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<NormalDistribution>() { Pi = _initialPi, TransitionProbabilityMatrix = _initialTransitionProbabilityMatrix, Emissions = _initialEmission });//new HiddenMarkovModelGaussianDistribution(_initialPi, _initialTransitionProbabilityMatrix, _initialEmission);
-
-            hmm.Train(_observationClose);
-            var value = hmm.Predict(_observationClose);
-            Assert.Fail("Implement");
-        }
     }
 }
