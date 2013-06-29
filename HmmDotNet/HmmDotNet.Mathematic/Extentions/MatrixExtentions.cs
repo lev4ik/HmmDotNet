@@ -222,10 +222,10 @@ namespace HmmDotNet.Mathematic.Extentions
 
         public static double[] GetColumn(this double[][] m, int column)
         {
-            var columns = m[0].Length;
+            var rows = m.Length;
             var result = new double[m.Length];
 
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < rows; i++)
             {
                 result[i] = m[i][column];
             }

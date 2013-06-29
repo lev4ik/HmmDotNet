@@ -76,6 +76,7 @@
     <Compile Include="Estimators\MuMixtureEstimatorTest.cs" />
     <Compile Include="Estimators\SigmaEstimatorTest.cs" />
     <Compile Include="Estimators\SigmaMixtureEstimatorTest.cs" />
+    <Compile Include="Estimators\TransitionProbabilityEstimatorTest.cs" />
     <Compile Include="GaussianMixtureModelTest.cs" />
     <Compile Include="HiddenMarkovModel\HiddenMarkovModelFactoryTest.cs" />
     <Compile Include="HiddenMarkovModel\HiddenMarkovModelGaussianDistributionTest.cs" />

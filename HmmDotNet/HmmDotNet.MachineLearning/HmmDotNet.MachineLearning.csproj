@@ -51,8 +51,7 @@
     <Compile Include="Algorithms\VaribaleEstimationCalculator\AlphaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\BaseEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\INormalizedEstimator.cs" />
-    <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\IVariableEstimatorCalculatorFactory.cs" />
-    <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\IVariablesEstimatorCalculator.cs" />
+    <Compile Include="Algorithms\VaribaleEstimationCalculator\Base\IVariableEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\BetaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\GammaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\KsiEstimator.cs" />
@@ -62,6 +61,7 @@
     <Compile Include="Algorithms\VaribaleEstimationCalculator\MixtureSigmaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\MuEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimationCalculator\SigmaEstimator.cs" />
+    <Compile Include="Algorithms\VaribaleEstimationCalculator\TransitionProbabilityEstimator.cs" />
     <Compile Include="Algorithms\Viterbi\Base\ViterbiBase.cs" />
     <Compile Include="Algorithms\Viterbi\Base\ViterbiDataNode.cs" />
     <Compile Include="Algorithms\Viterbi\Viterbi.cs" />

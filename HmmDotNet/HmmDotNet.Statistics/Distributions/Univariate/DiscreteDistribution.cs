@@ -135,7 +135,7 @@ namespace HmmDotNet.Statistics.Distributions.Univariate
                     }
                 }
                 probabilities[k] = 1e-10;
-                if (num.EqualsToZero())
+                if (!num.EqualsToZero())
                 {
                     if (logNormalized)
                     {
