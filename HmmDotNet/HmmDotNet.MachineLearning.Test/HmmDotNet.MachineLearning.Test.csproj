@@ -74,6 +74,7 @@
     <Compile Include="Estimators\MixtureGammaEstimatorTest.cs" />
     <Compile Include="Estimators\MuEstimatorTest.cs" />
     <Compile Include="Estimators\MuMixtureEstimatorTest.cs" />
+    <Compile Include="Estimators\PiEstimatorTest.cs" />
     <Compile Include="Estimators\SigmaEstimatorTest.cs" />
     <Compile Include="Estimators\SigmaMixtureEstimatorTest.cs" />
     <Compile Include="Estimators\TransitionProbabilityEstimatorTest.cs" />

@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using HmmDotNet.Logic.Test.MachineLearning.Data;
+using HmmDotNet.MachineLearning.Algorithms;
+using HmmDotNet.MachineLearning.Algorithms.Clustering;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
+using HmmDotNet.MachineLearning.Base;
+using HmmDotNet.MachineLearning.HiddenMarkovModels;
+using HmmDotNet.Statistics.Distributions.Multivariate;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace HmmDotNet.MachineLearning.Test.Estimators
+{
+    /// <summary>
+    /// Summary description for PiEstimatorTest
+    /// </summary>
+    [TestClass]
+    public class PiEstimatorTest
+    {
+        private NormalDistribution[] CreateEmissions(double[][] observations, int numberOfEmissions)
+        {
+            var emissions = new NormalDistribution[numberOfEmissions];
+            // Create initial emmissions , TMP and Pi are already created
+            var algo = new KMeans();
+            algo.CreateClusters(observations, numberOfEmissions, KMeans.KMeansDefaultIterations, (numberOfEmissions > 3) ? InitialClusterSelectionMethod.Furthest : InitialClusterSelectionMethod.Random);
+
+            for (int i = 0; i < numberOfEmissions; i++)
+            {
+                var mean = algo.ClusterCenters[i];
+                var covariance = algo.ClusterCovariances[i];
+
+                emissions[i] = new NormalDistribution(mean, covariance);
+            }
+
+            return emissions;
+        }
+
+        [TestMethod]
+        public void PiEstimator_ParameterPassed_PiEstimatorCreated()
+        {
+            var estimator = new PiEstimator();
+
+            Assert.IsNotNull(estimator);
+        }
+
+        [TestMethod]
+        public void Estimate_ParametersPassed_PiCalculatedAndReturned()
+        {
+            const int numberOfStates = 2;
+
+            var util = new TestDataUtils();
+            var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2010, 12, 18), new DateTime(2011, 12, 18));
+            var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = numberOfStates, Emissions = CreateEmissions(observations, numberOfStates) });
+            model.Normalized = true;
+            var observationsList = new List<IObservation>();
+
+            for (var i = 0; i < observations.Length; i++)
+            {
+                observationsList.Add(new Observation(observations[i], i.ToString()));
+            }
+
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, Helper.Convert(observations), model.Normalized);
+            var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), model.Normalized);
+            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alphaEstimator.Alpha, betaEstimator.Beta);
+
+            var gammaEstimator = new GammaEstimator<NormalDistribution>(estimationParameters, model.Normalized);
+
+            var estimator = new PiEstimator();
+            var parameters = new PiParameters
+            {
+                Gamma = gammaEstimator.Gamma,
+                N = model.N,
+                Normalized = model.Normalized
+            };
+
+            var estimatedPi = estimator.Estimate(parameters);
+            Assert.AreEqual(1d, Math.Round(estimatedPi[0] + estimatedPi[1], 5));
+        }
+    }
+}
