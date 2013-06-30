@@ -1,15 +1,14 @@
 ﻿using System;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HmmDotNet.Logic.Test.MachineLearning.Data;
 using HmmDotNet.MachineLearning;
 using HmmDotNet.MachineLearning.Algorithms;
 using HmmDotNet.MachineLearning.Algorithms.Clustering;
 using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.MachineLearning.Estimators;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;
-using HmmDotNet.Statistics.Distributions;
 using HmmDotNet.Statistics.Distributions.Multivariate;
 
 namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
@@ -47,7 +46,8 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
             model.Normalized = true;
 
-            _alphaEstimator = new AlphaEstimator<NormalDistribution>(model, Helper.Convert(observations), true);
+            _alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            
             _betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), true);
         }
 
@@ -58,7 +58,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
             model.Normalized = true;
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), _alphaEstimator.Alpha, _betaEstimator.Beta);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, _betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, true);
 
@@ -72,7 +75,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
             model.Normalized = true;
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), _alphaEstimator.Alpha, _betaEstimator.Beta);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, _betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, true);
 
@@ -95,10 +101,12 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var util = new TestDataUtils();
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
-            model.Normalized = true;
-            _alphaEstimator.LogNormalized = false;
+            model.Normalized = false;
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+
             _betaEstimator.LogNormalized = false;
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), _alphaEstimator.Alpha, _betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, _betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
 
@@ -124,9 +132,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = numberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, numberOfStatesRightLeft) });//new HiddenMarkovModelState<NormalDistribution>(numberOfStatesRightLeft, delta, CreateEmissions(observations, numberOfStatesRightLeft)) { LogNormalized = true };
             model.Normalized = true;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, Helper.Convert(observations), true);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), true);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, true);
 
@@ -151,11 +160,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var util = new TestDataUtils();
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = numberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, numberOfStatesRightLeft) });//new HiddenMarkovModelState<NormalDistribution>(numberOfStatesRightLeft, delta, CreateEmissions(observations, numberOfStatesRightLeft)) { LogNormalized = true };
-            model.Normalized = true;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, Helper.Convert(observations), false);
+            model.Normalized = false;
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), false);
 
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
 
@@ -178,10 +189,12 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var util = new TestDataUtils();
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
-            model.Normalized = true;
-            _alphaEstimator.LogNormalized = false;
+            model.Normalized = false;
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+
             _betaEstimator.LogNormalized = false;
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), _alphaEstimator.Alpha, _betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, _betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
             for (int t = 0; t < observations.Length - 1; t++)
@@ -198,11 +211,12 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var util = new TestDataUtils();
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = numberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, numberOfStatesRightLeft) });//new HiddenMarkovModelState<NormalDistribution>(numberOfStatesRightLeft, delta, CreateEmissions(observations, numberOfStatesRightLeft)) { LogNormalized = true };
-            model.Normalized = true;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, Helper.Convert(observations), false);
+            model.Normalized = false;
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), false);
 
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
 
             var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
             for (int t = 0; t < observations.Length - 1; t++)

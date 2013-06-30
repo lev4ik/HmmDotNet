@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
@@ -39,13 +40,10 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         #endregion Public Variables
 
-        public double RunForward<TEmmisionType>(IList<IObservation> observations, 
-                                                IHiddenMarkovModel<TEmmisionType> model) where TEmmisionType : IDistribution
+        public double RunForward<TEmmisionType>(IList<IObservation> observations, IHiddenMarkovModel<TEmmisionType> model) where TEmmisionType : IDistribution
         {
-            var alphaEstimator = new AlphaEstimator<TEmmisionType>(model, 
-                                                                   observations, 
-                                                                   Normalized);
-            _alpha = alphaEstimator.Alpha;
+            var alphaEstimator = new AlphaEstimator<TEmmisionType>();
+            _alpha = alphaEstimator.Estimate(new BasicEstimationParameters<TEmmisionType>{Model = model, Observations = observations, Normalized = Normalized});
             var T = observations.Count;
             var result = (Normalized) ? double.NaN : 0d;
 

@@ -92,8 +92,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     _estimatedEmissions[j] = (DiscreteDistribution)_estimatedEmissions[j].Evaluate(_discreteObservations, _discreteSymbols, _gammaEstimator.Gamma.GetColumn(j), Normalized);
                 }
 
-                _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<DiscreteDistribution> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });//new HiddenMarkovModelState<DiscreteDistribution>(_estimatedPi, _estimatedTransitionProbabilityMatrix, _estimatedEmissions) { LogNormalized = _currentModel.LogNormalized };
-                _estimatedModel.Normalized = Normalized;//new HiddenMarkovModelState<IMultivariateDistribution>(_estimatedPi, _estimatedTransitionProbabilityMatrix, _estimatedEmissions) {LogNormalized = _currentModel.LogNormalized};
+                _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<DiscreteDistribution> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });
+                _estimatedModel.Normalized = Normalized;
                 _estimatedModel.Likelihood = forwardBackward.RunForward(_observations, _estimatedModel);
                 _likelihoodDelta = Math.Abs(Math.Abs(_currentModel.Likelihood) - Math.Abs(_estimatedModel.Likelihood));
                 Debug.WriteLine("Iteration {3} , Current {0}, Estimate {1} Likelihood delta {2}", _currentModel.Likelihood, _estimatedModel.Likelihood, _likelihoodDelta, maxIterations);

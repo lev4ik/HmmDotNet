@@ -90,7 +90,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     }
                     _estimatedEmissions[n] = new Mixture<IMultivariateDistribution>(coefficients, distributions);
                 }
-                _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(_estimatedPi, _estimatedTransitionProbabilityMatrix, _estimatedEmissions) { LogNormalized = _currentModel.LogNormalized };
+                _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });
                 _estimatedModel.Normalized = Normalized;
                 _estimatedModel.Likelihood = forwardBackward.RunForward(_observations, _estimatedModel);
                 _likelihoodDelta = Math.Abs(Math.Abs(_currentModel.Likelihood) - Math.Abs(_estimatedModel.Likelihood));

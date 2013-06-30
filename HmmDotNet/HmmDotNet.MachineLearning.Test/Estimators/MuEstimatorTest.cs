@@ -1,4 +1,6 @@
 ﻿using System;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
+using HmmDotNet.Statistics.Distributions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HmmDotNet.Logic.Test.MachineLearning.Data;
 using HmmDotNet.MachineLearning;
@@ -56,9 +58,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var sequence = Helper.Convert(observations);
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
             model.Normalized = true;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, sequence, true);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = sequence, Normalized = model.Normalized });
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, sequence, true);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alpha, betaEstimator.Beta);
 
             var gammEstimator = new GammaEstimator<NormalDistribution>(parameters, true);
             var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
@@ -83,9 +86,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var sequence = Helper.Convert(observations);
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = false };
             model.Normalized = false;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, sequence, false);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = sequence, Normalized = model.Normalized });
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, sequence, false);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alpha, betaEstimator.Beta);
 
             var gammEstimator = new GammaEstimator<NormalDistribution>(parameters, false);
             var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
@@ -111,9 +115,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var sequence = Helper.Convert(observations);
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, NumberOfStatesRightLeft) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStatesRightLeft, delta, CreateEmissions(observations, NumberOfStatesRightLeft)) { LogNormalized = true };
             model.Normalized = true;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, sequence, true);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = sequence, Normalized = model.Normalized });
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, sequence, true);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alpha, betaEstimator.Beta);
 
             var gammEstimator = new GammaEstimator<NormalDistribution>(parameters, true);
             var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
@@ -139,9 +144,10 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var sequence = Helper.Convert(observations);
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, NumberOfStatesRightLeft) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStatesRightLeft, delta, CreateEmissions(observations, NumberOfStatesRightLeft)) { LogNormalized = false };
             model.Normalized = false;
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>(model, sequence, false);
+            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
+            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = sequence, Normalized = model.Normalized });
             var betaEstimator = new BetaEstimator<NormalDistribution>(model, sequence, false);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alphaEstimator.Alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<NormalDistribution>(model, sequence, alpha, betaEstimator.Beta);
 
             var gammEstimator = new GammaEstimator<NormalDistribution>(parameters, false);
             var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
