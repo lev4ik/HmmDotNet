@@ -23,8 +23,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private double[] _muUnivariate;
 
         private double[][] _muMultivariate;
-        //BUG : Handle NaN in gamma
-        //BUG : Handle LogNormalized calculation
+
         public double[] MuUnivariate(double[][] gamma)
         {
             if (_muUnivariate == null)
@@ -37,8 +36,16 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     var nK = 0d;
                     for (var t = 0; t < T; t++)
                     {
-                        nK += gamma[t][n];
-                        mean = mean + _observations[t].Value[0] * gamma[t][n];
+                        if (_model.Normalized)
+                        {
+                            nK += LogExtention.eExp(gamma[t][n]);
+                            mean += _observations[t].Value[0] * LogExtention.eExp(gamma[t][n]);                            
+                        }
+                        else
+                        {
+                            nK += gamma[t][n];
+                            mean += _observations[t].Value[0] * gamma[t][n];
+                        }
                     }
 
                     _muUnivariate[n] = mean / nK;
@@ -47,8 +54,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
             }
             return _muUnivariate;
         }
-        //BUG : Handle NaN in gamma
-        //BUG : Handle LogNormalized calculation
+
         /// <summary>
         ///     Mu[NumberOfComponents][Dimentions]
         /// </summary>
