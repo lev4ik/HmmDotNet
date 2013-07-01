@@ -52,11 +52,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStates, CreateEmissions(observations, NumberOfStates, NumberOfComponents)) { LogNormalized = true };
             model.Normalized = true;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), true);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var gamma = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             Assert.IsNotNull(gamma);
@@ -69,11 +71,12 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStates, CreateEmissions(observations, NumberOfStates, NumberOfComponents)) { LogNormalized = true };
             model.Normalized = true;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), true);
-
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var gamma = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             Assert.IsNotNull(gamma.Gamma);
@@ -87,11 +90,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStates, CreateEmissions(observations, NumberOfStates, NumberOfComponents)) { LogNormalized = true };
             model.Normalized = true;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), true);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             Assert.IsNotNull(estimator);
@@ -115,11 +120,12 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStates, CreateEmissions(observations, NumberOfStates, NumberOfComponents)) { LogNormalized = false };
             model.Normalized = false;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), false);
-
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             Assert.IsNotNull(estimator);
@@ -144,11 +150,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, NumberOfStatesRightLeft, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStatesRightLeft, delta, CreateEmissions(observations, NumberOfStatesRightLeft, NumberOfComponents)) { LogNormalized = true };
             model.Normalized = true;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), true);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             Assert.IsNotNull(estimator);
@@ -173,11 +181,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, NumberOfStatesRightLeft, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStatesRightLeft, delta, CreateEmissions(observations, NumberOfStatesRightLeft, NumberOfComponents)) { LogNormalized = false };
             model.Normalized = false;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), false);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             Assert.IsNotNull(estimator);
@@ -201,11 +211,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStates, CreateEmissions(observations, NumberOfStates, NumberOfComponents)) { LogNormalized = false };
             model.Normalized = false;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), false);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             var gammaComponents = estimator.GammaComponents;
@@ -224,11 +236,13 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStatesRightLeft, Delta = delta, Emissions = CreateEmissions(observations, NumberOfStatesRightLeft, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStatesRightLeft, delta, CreateEmissions(observations, NumberOfStatesRightLeft, NumberOfComponents)) { LogNormalized = false };
             model.Normalized = false;
+            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), false);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
+            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, betaEstimator.Beta);
+            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
             var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
 
             var gammaComponents = estimator.GammaComponents;

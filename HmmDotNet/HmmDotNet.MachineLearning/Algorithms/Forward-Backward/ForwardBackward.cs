@@ -65,8 +65,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         public double RunBackward<TEmmisionType>(IList<IObservation> observations, IHiddenMarkovModel<TEmmisionType> model) where TEmmisionType : IDistribution
         {
-            var betaEstimator = new BetaEstimator<TEmmisionType>(model, observations, Normalized);
-            _beta = betaEstimator.Beta;
+            var betaEstimator = new BetaEstimator<TEmmisionType>();
+            _beta = betaEstimator.Estimate(new BasicEstimationParameters<TEmmisionType> { Model = model, Observations = observations, Normalized = Normalized });
             var result = (Normalized) ? double.NaN : 0d;
 
             for (var j = 0; j < model.N; j++)

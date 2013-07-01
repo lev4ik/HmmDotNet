@@ -57,11 +57,12 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             {
                 observationsList.Add(new Observation(observations[i], i.ToString()));
             }
-
+            var baseEstimator = new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<NormalDistribution>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), model.Normalized);
-            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, betaEstimator.Beta);
+            var alpha = alphaEstimator.Estimate(baseEstimator);
+            var betaEstimator = new BetaEstimator<NormalDistribution>();
+            var beta = betaEstimator.Estimate(baseEstimator);
+            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, beta);
 
             var gammaEstimator = new GammaEstimator<NormalDistribution>(estimationParameters, model.Normalized);
             var ksiEstimator = new KsiEstimator<NormalDistribution>(estimationParameters, model.Normalized);
@@ -90,18 +91,19 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2010, 12, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = numberOfStates, Emissions = CreateEmissions(observations, numberOfStates) });
             model.Normalized = true;
-
+            var baseParameters = new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<NormalDistribution>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+            var alpha = alphaEstimator.Estimate(baseParameters);
 
-            var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), model.Normalized);
+            var betaEstimator = new BetaEstimator<NormalDistribution>();
+            var beta = betaEstimator.Estimate(baseParameters);
             var weights = new double[observations.Length];
 
             var estimator = new TransitionProbabilityEstimator<NormalDistribution>();
             var parameters = new AlphaBetaTransitionProbabiltyMatrixParameters<NormalDistribution>
                 {
                     Alpha = alpha,
-                    Beta = betaEstimator.Beta,
+                    Beta = beta,
                     Model = model,
                     Observations = observations,
                     Normalized = model.Normalized,
@@ -128,12 +130,13 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             {
                 observationsList.Add(new Observation(observations[i], i.ToString()));
             }
-
+            var baseParameters = new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<NormalDistribution>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
+            var alpha = alphaEstimator.Estimate(baseParameters);
 
-            var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), model.Normalized);
-            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, betaEstimator.Beta);
+            var betaEstimator = new BetaEstimator<NormalDistribution>();
+            var beta = betaEstimator.Estimate(baseParameters);
+            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, beta);
 
             var gammaEstimator = new GammaEstimator<NormalDistribution>(estimationParameters, model.Normalized);
             var ksiEstimator = new KsiEstimator<NormalDistribution>(estimationParameters, model.Normalized);
@@ -151,7 +154,7 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             var parametersAlphaBeta = new AlphaBetaTransitionProbabiltyMatrixParameters<NormalDistribution>
             {
                 Alpha = alpha,
-                Beta = betaEstimator.Beta,
+                Beta = beta,
                 Model = model,
                 Observations = observations,
                 Normalized = model.Normalized,

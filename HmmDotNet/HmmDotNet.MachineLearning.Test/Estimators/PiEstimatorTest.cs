@@ -59,11 +59,12 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             {
                 observationsList.Add(new Observation(observations[i], i.ToString()));
             }
-
+            var baseParameters = new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<NormalDistribution>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<NormalDistribution>(model, Helper.Convert(observations), model.Normalized);
-            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, betaEstimator.Beta);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<NormalDistribution>();
+            var beta = betaEstimator.Estimate(baseParameters);
+            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, beta);
 
             var gammaEstimator = new GammaEstimator<NormalDistribution>(estimationParameters, model.Normalized);
 

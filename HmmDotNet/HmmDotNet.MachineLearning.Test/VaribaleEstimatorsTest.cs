@@ -38,15 +38,17 @@ namespace HmmDotNet.MachineLearning.Test
             var model = HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<DiscreteDistribution>(){Pi = startDistribution, TransitionProbabilityMatrix = tpm, Emissions = emissions});//new HiddenMarkovModel(startDistribution, tpm, emissions) { LogNormalized = false };
             model.Normalized = false;
 
-            var betaEstimator = new BetaEstimator<DiscreteDistribution>(model, observations, model.Normalized);
-            Assert.AreEqual(1d, Math.Round(betaEstimator.Beta[3][0], 9));
-            Assert.AreEqual(1d, Math.Round(betaEstimator.Beta[3][1], 9));
-            Assert.AreEqual(0.47, Math.Round(betaEstimator.Beta[2][0], 9));
-            Assert.AreEqual(0.49, Math.Round(betaEstimator.Beta[2][1], 9));
-            Assert.AreEqual(0.2561, Math.Round(betaEstimator.Beta[1][0], 9));
-            Assert.AreEqual(0.2487, Math.Round(betaEstimator.Beta[1][1], 9));
-            Assert.AreEqual(0.133143, Math.Round(betaEstimator.Beta[0][0], 9));
-            Assert.AreEqual(0.127281, Math.Round(betaEstimator.Beta[0][1], 9));
+            var betaEstimator = new BetaEstimator<DiscreteDistribution>();
+            var beta = betaEstimator.Estimate(new BasicEstimationParameters<DiscreteDistribution> { Model = model, Observations = observations, Normalized = model.Normalized });
+
+            Assert.AreEqual(1d, Math.Round(beta[3][0], 9));
+            Assert.AreEqual(1d, Math.Round(beta[3][1], 9));
+            Assert.AreEqual(0.47, Math.Round(beta[2][0], 9));
+            Assert.AreEqual(0.49, Math.Round(beta[2][1], 9));
+            Assert.AreEqual(0.2561, Math.Round(beta[1][0], 9));
+            Assert.AreEqual(0.2487, Math.Round(beta[1][1], 9));
+            Assert.AreEqual(0.133143, Math.Round(beta[0][0], 9));
+            Assert.AreEqual(0.127281, Math.Round(beta[0][1], 9));
         }
         [TestMethod]
         public void BetaEstimator_NormalizedTest()
@@ -117,11 +119,12 @@ namespace HmmDotNet.MachineLearning.Test
 
             var model = HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<DiscreteDistribution>() { Pi = startDistribution, TransitionProbabilityMatrix = tpm, Emissions = emissions });//new HiddenMarkovModel(startDistribution, tpm, emissions) { LogNormalized = false };
             model.Normalized = false;
-
+            var baseParameters = new BasicEstimationParameters<DiscreteDistribution> { Model = model, Observations = observations, Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<DiscreteDistribution>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<DiscreteDistribution> { Model = model, Observations = observations, Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<DiscreteDistribution>(model, observations, model.Normalized);
-            var parameters = new ParameterEstimations<DiscreteDistribution>(model, observations, alpha, betaEstimator.Beta);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<DiscreteDistribution>();
+            var beta = betaEstimator.Estimate(baseParameters);
+            var parameters = new ParameterEstimations<DiscreteDistribution>(model, observations, alpha, beta);
             var gammaEstimator = new GammaEstimator<DiscreteDistribution>(parameters, model.Normalized);
 
             Assert.AreEqual(0.8258482510939813, gammaEstimator.Gamma[0][0]);
@@ -169,11 +172,12 @@ namespace HmmDotNet.MachineLearning.Test
 
             var model = HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<DiscreteDistribution>() { Pi = startDistribution, TransitionProbabilityMatrix = tpm, Emissions = emissions });//new HiddenMarkovModel(startDistribution, tpm, emissions) { LogNormalized = false };
             model.Normalized = false;
-
+            var baseParameters = new BasicEstimationParameters<DiscreteDistribution> { Model = model, Observations = observations, Normalized = model.Normalized };
             var alphaEstimator = new AlphaEstimator<DiscreteDistribution>();
-            var alpha = alphaEstimator.Estimate(new BasicEstimationParameters<DiscreteDistribution> { Model = model, Observations = observations, Normalized = model.Normalized });
-            var betaEstimator = new BetaEstimator<DiscreteDistribution>(model, observations, model.Normalized);
-            var parameters = new ParameterEstimations<DiscreteDistribution>(model, observations, alpha, betaEstimator.Beta);
+            var alpha = alphaEstimator.Estimate(baseParameters);
+            var betaEstimator = new BetaEstimator<DiscreteDistribution>();
+            var beta = betaEstimator.Estimate(baseParameters);
+            var parameters = new ParameterEstimations<DiscreteDistribution>(model, observations, alpha, beta);
             var ksiEstimator = new KsiEstimator<DiscreteDistribution>(parameters, model.Normalized);
 
             Assert.AreEqual(0.28593281418422561, ksiEstimator.Ksi[0][0, 0]);
