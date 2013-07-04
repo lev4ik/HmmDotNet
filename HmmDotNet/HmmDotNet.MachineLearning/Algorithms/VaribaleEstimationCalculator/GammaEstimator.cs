@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
 
@@ -8,101 +10,68 @@ namespace HmmDotNet.MachineLearning.Algorithms
     /// <summary>
     ///     Calculates Gamma value for all t from 1 to T and for all i from 1 to N
     /// </summary>
-    public class GammaEstimator<TDistribution> : BaseEstimator where TDistribution : IDistribution
+    public class GammaEstimator<TDistribution> : IVariableEstimator<double[][], AdvancedEstimationParameters<TDistribution>> 
+                                                 where TDistribution : IDistribution
     {
-        public GammaEstimator(IParameterEstimations<TDistribution> parameters, bool logNormalized)
+        public double[][] Estimate(AdvancedEstimationParameters<TDistribution> parameters)
         {
-            LogNormalized = logNormalized;
-            Parameters = parameters;
-            CalculateDenominator();
-            CalculateGamma();
-        }
-
-        private readonly IParameterEstimations<TDistribution> Parameters;
-
-        private double[] _denominator;
-
-        private double[][] _gamma;
-
-        protected double[] Denominator 
-        { 
-            get
-            {
-                return _denominator;
-            }
-        }
-
-        public double[][] Gamma
-        {
-            get
+            if (_gamma != null)
             {
                 return _gamma;
             }
-        }
 
-        #region Private Methods
-
-        private void CalculateDenominator()
-        {
-            if (_denominator == null)
+            var denominator = new double[parameters.Observations.Count];
+            for (var t = 0; t < parameters.Observations.Count; t++)
             {
-                _denominator = new double[Parameters.Observation.Count];
-                for (var t = 0; t < Parameters.Observation.Count; t++)
+                denominator[t] = (parameters.Normalized) ? double.NaN : 0d;
+                for (var i = 0; i < parameters.Model.N; i++)
                 {
-                    _denominator[t] = (LogNormalized) ? double.NaN : 0d;
-                    for (var i = 0; i < Parameters.Model.N; i++)
+                    if (parameters.Normalized)
                     {
-                        if (LogNormalized)
+                        denominator[t] = LogExtention.eLnSum(denominator[t], LogExtention.eLnProduct(parameters.Alpha[t][i], parameters.Beta[t][i]));
+                    }
+                    else
+                    {
+                        denominator[t] += parameters.Alpha[t][i] * parameters.Beta[t][i];
+                    }
+                }
+            }
+
+
+            try
+            {
+                _gamma = new double[parameters.Observations.Count][];
+                for (var t = 0; t < parameters.Observations.Count; t++)
+                {
+                    _gamma[t] = new double[parameters.Model.N];
+                    for (var i = 0; i < parameters.Model.N; i++)
+                    {
+                        if (parameters.Normalized)
                         {
-                            // TODO : Check if Alpha and Beta is already passed Ln function
-                            _denominator[t] = LogExtention.eLnSum(_denominator[t], LogExtention.eLnProduct(Parameters.Alpha[t][i], Parameters.Beta[t][i]));
+                            _gamma[t][i] = LogExtention.eLnProduct(LogExtention.eLnProduct(parameters.Alpha[t][i], parameters.Beta[t][i]), -denominator[t]);
                         }
                         else
                         {
-                            _denominator[t] += Parameters.Alpha[t][i] * Parameters.Beta[t][i];
+                            _gamma[t][i] = (parameters.Alpha[t][i] * parameters.Beta[t][i]) / denominator[t];
                         }
                     }
-                }
-            }            
-        }
-
-        private void CalculateGamma()
-        {
-            if (_gamma == null)
-            {
-                try
-                {
-                    _gamma = new double[Parameters.Observation.Count][];
-                    for (var t = 0; t < Parameters.Observation.Count; t++)
-                    {
-                        _gamma[t] = new double[Parameters.Model.N];
-                        for (var i = 0; i < Parameters.Model.N; i++)
-                        {
-                            if (LogNormalized)
-                            {
-                                _gamma[t][i] = LogExtention.eLnProduct(LogExtention.eLnProduct(Parameters.Alpha[t][i], Parameters.Beta[t][i]), -Denominator[t]);
-                            }
-                            else
-                            {
-                                _gamma[t][i] = (Parameters.Alpha[t][i] * Parameters.Beta[t][i]) / Denominator[t];
-                            }
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    for (var t = 0; t < Parameters.Observation.Count; t++)
-                    {
-                        for (var i = 0; i < Parameters.Model.N; i++)
-                        {
-                            Debug.WriteLine("Gamma [{0}][{1}] : alpha : {2} , beta : {3} , denominator : {4} : gamma {5} ", t, i, Parameters.Alpha[t][i], Parameters.Beta[t][i], Denominator[t], _gamma[t][i]);
-                        }
-                    }                    
-                    throw;
                 }
             }
+            catch (Exception)
+            {
+                for (var t = 0; t < parameters.Observations.Count; t++)
+                {
+                    for (var i = 0; i < parameters.Model.N; i++)
+                    {
+                        Debug.WriteLine("Gamma [{0}][{1}] : alpha : {2} , beta : {3} , denominator : {4} : gamma {5} ", t, i, parameters.Alpha[t][i], parameters.Beta[t][i], denominator[t], _gamma[t][i]);
+                    }
+                }
+                throw;
+            }
+
+            return _gamma;
         }
 
-        #endregion Private Methods
+        private double[][] _gamma;
     }
 }

@@ -7,7 +7,6 @@ using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions.Univariate;
-using HmmDotNet.Mathematic;
 
 namespace HmmDotNet.MachineLearning.Test
 {
@@ -124,25 +123,33 @@ namespace HmmDotNet.MachineLearning.Test
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<DiscreteDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<DiscreteDistribution>(model, observations, alpha, beta);
-            var gammaEstimator = new GammaEstimator<DiscreteDistribution>(parameters, model.Normalized);
+            
+            var @params = new AdvancedEstimationParameters<DiscreteDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = observations,
+                Model = model
+            };
+            var gammaEstimator = new GammaEstimator<DiscreteDistribution>();
+            var gamma = gammaEstimator.Estimate(@params);
+            Assert.AreEqual(0.8258482510939813, gamma[0][0]);
+            Assert.AreEqual(0.17415174890601867, gamma[0][1]);
+            Assert.AreEqual(1d, gamma[0].Sum());
 
-            Assert.AreEqual(0.8258482510939813, gammaEstimator.Gamma[0][0]);
-            Assert.AreEqual(0.17415174890601867, gammaEstimator.Gamma[0][1]);
-            Assert.AreEqual(1d, gammaEstimator.Gamma[0].Sum());
+            Assert.AreEqual(0.3069572858154187, gamma[1][0]);
+            Assert.AreEqual(0.69304271418458141, gamma[1][1]);
+            Assert.AreEqual(1d, gamma[1].Sum());
 
-            Assert.AreEqual(0.3069572858154187, gammaEstimator.Gamma[1][0]);
-            Assert.AreEqual(0.69304271418458141, gammaEstimator.Gamma[1][1]);
-            Assert.AreEqual(1d, gammaEstimator.Gamma[1].Sum());
+            Assert.AreEqual(0.17998403530294202, gamma[2][0]);
+            Assert.AreEqual(0.82001596469705806, gamma[2][1]);
+            Assert.AreEqual(1d, gamma[2].Sum());
 
-            Assert.AreEqual(0.17998403530294202, gammaEstimator.Gamma[2][0]);
-            Assert.AreEqual(0.82001596469705806, gammaEstimator.Gamma[2][1]);
-            Assert.AreEqual(1d, gammaEstimator.Gamma[2].Sum());
-
-            Assert.AreEqual(0.112893449466425, gammaEstimator.Gamma[3][0]);
-            Assert.AreEqual(0.887106550533575, gammaEstimator.Gamma[3][1]);
-            Assert.AreEqual(1d, gammaEstimator.Gamma[2].Sum());
+            Assert.AreEqual(0.112893449466425, gamma[3][0]);
+            Assert.AreEqual(0.887106550533575, gamma[3][1]);
+            Assert.AreEqual(1d, gamma[2].Sum());
         }
+
         [TestMethod]
         public void GammaEstimator_NormalizedTest()
         {

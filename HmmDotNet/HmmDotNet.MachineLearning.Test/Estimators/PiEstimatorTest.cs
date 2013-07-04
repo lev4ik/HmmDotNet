@@ -64,14 +64,20 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, beta);
-
-            var gammaEstimator = new GammaEstimator<NormalDistribution>(estimationParameters, model.Normalized);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = observationsList,
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var gammaEstimator = new GammaEstimator<NormalDistribution>();
 
             var estimator = new PiEstimator();
             var parameters = new PiParameters
             {
-                Gamma = gammaEstimator.Gamma,
+                Gamma = gammaEstimator.Estimate(@params),
                 N = model.N,
                 Normalized = model.Normalized
             };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
@@ -12,7 +13,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         public MixtureGammaEstimator(IParameterEstimations<TDistribution> parameters)
         {
             _parameters = parameters;
-            _gammaEstimator = new GammaEstimator<TDistribution>(parameters, _parameters.Model.Normalized);
+            _gammaEstimator = new GammaEstimator<TDistribution>();
         }
 
         private readonly GammaEstimator<TDistribution> _gammaEstimator;
@@ -23,7 +24,19 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         public double[][] Gamma
         {
-            get { return _gammaEstimator.Gamma; }
+            get
+            {
+                var @params = new AdvancedEstimationParameters<TDistribution>
+                    {
+                        Alpha = _parameters.Alpha,
+                        Beta = _parameters.Beta,
+                        Observations = _parameters.Observation,
+                        Model = _parameters.Model,
+                        Normalized = _parameters.Model.Normalized
+                    };
+
+                return _gammaEstimator.Estimate(@params);
+            }
         }
 
         public double[][,] GammaComponents
@@ -47,13 +60,13 @@ namespace HmmDotNet.MachineLearning.Algorithms
                                     {
                                         //Emmision in our case are Mixture<T>
                                         var p = d.ProbabilityDensityFunction(l, _parameters.Observation[t].Value);
-                                        if (_gammaEstimator.LogNormalized)
+                                        if (_parameters.Model.Normalized)
                                         {
-                                            _gammaComponents[t][i, l] = LogExtention.eLnProduct(_gammaEstimator.Gamma[t][i], LogExtention.eLn(p));
+                                            _gammaComponents[t][i, l] = LogExtention.eLnProduct(Gamma[t][i], LogExtention.eLn(p));
                                         }
                                         else
                                         {
-                                            _gammaComponents[t][i, l] = _gammaEstimator.Gamma[t][i] * p;
+                                            _gammaComponents[t][i, l] = Gamma[t][i] * p;
                                         }
                                     }
                                 }

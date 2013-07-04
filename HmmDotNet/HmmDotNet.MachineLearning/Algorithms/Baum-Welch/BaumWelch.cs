@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic.Extentions;
@@ -80,16 +81,24 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunBackward(_observations, _currentModel);
 
                 var parameters = new ParameterEstimations<DiscreteDistribution>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
-                _gammaEstimator = new GammaEstimator<DiscreteDistribution>(parameters, Normalized);
+                var @params = new AdvancedEstimationParameters<DiscreteDistribution>
+                {
+                    Alpha = forwardBackward.Alpha,
+                    Beta = forwardBackward.Beta,
+                    Observations = _observations,
+                    Model = _currentModel,
+                    Normalized = _currentModel.Normalized
+                };
+                _gammaEstimator = new GammaEstimator<DiscreteDistribution>();
                 _ksiEstimator = new KsiEstimator<DiscreteDistribution>(parameters, Normalized);
                 
                 // Estimate transition probabilities and start distribution
-                EstimatePi(_gammaEstimator.Gamma);
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Gamma, _ksiEstimator.Ksi, _observations.Count);
+                EstimatePi(_gammaEstimator.Estimate(@params));
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Ksi, _observations.Count);
                 // Estimate Emmisions
                 for (var j = 0; j < _currentModel.N; j++)
                 {
-                    _estimatedEmissions[j] = (DiscreteDistribution)_estimatedEmissions[j].Evaluate(_discreteObservations, _discreteSymbols, _gammaEstimator.Gamma.GetColumn(j), Normalized);
+                    _estimatedEmissions[j] = (DiscreteDistribution)_estimatedEmissions[j].Evaluate(_discreteObservations, _discreteSymbols, _gammaEstimator.Estimate(@params).GetColumn(j), Normalized);
                 }
 
                 _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<DiscreteDistribution> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });

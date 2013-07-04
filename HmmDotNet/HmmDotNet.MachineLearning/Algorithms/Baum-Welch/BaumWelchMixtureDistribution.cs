@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic.Extentions;
@@ -67,7 +68,15 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 // Calculate Gamma and Xi 
                 // TODO : Add summing over t for Ksi and gamma for future calculations in differen data structure
                 var parameterEstimator = new ParameterEstimations<Mixture<IMultivariateDistribution>>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
-                _gammaEstimator = new GammaEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator, Normalized);
+                var @params = new AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+                {
+                    Alpha = forwardBackward.Alpha,
+                    Beta = forwardBackward.Beta,
+                    Observations = _observations,
+                    Model = _currentModel,
+                    Normalized = _currentModel.Normalized
+                };
+                _gammaEstimator = new GammaEstimator<Mixture<IMultivariateDistribution>>();
                 _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator, Normalized);
                 var mixtureCoefficientsEstimator = new MixtureCoefficientsEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator);
                 var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Mean
@@ -76,8 +85,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 {
                     mixtureCoefficientsEstimator.Denormalize();
                 }
-                EstimatePi(_gammaEstimator.Gamma);
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Gamma, _ksiEstimator.Ksi, _observations.Count);
+                EstimatePi(_gammaEstimator.Estimate(@params));
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Ksi, _observations.Count);
                 for (var n = 0; n < _currentModel.N; n++)
                 {
                     var mixturesComponents = _currentModel.Emission[n].Coefficients.Length;                    

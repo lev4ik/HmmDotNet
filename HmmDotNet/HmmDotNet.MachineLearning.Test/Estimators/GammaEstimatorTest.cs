@@ -51,15 +51,8 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates) { LogNormalized = true };
             model.Normalized = true;
-            var baseParameters = new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
-            var alpha = alphaEstimator.Estimate(baseParameters);
-            var betaEstimator = new BetaEstimator<NormalDistribution>();
-            var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, true);
+            var estimator = new GammaEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
         }
@@ -76,16 +69,23 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
 
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, true);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new GammaEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int i = 0; i < observations.Length; i++)
             {
                 for (int j = 0; j < NumberOfStates; j++)
                 {
-                    Assert.IsTrue(estimator.Gamma[i][j] < 0, string.Format("Failed Gamma {0}", estimator.Gamma[i][j]));
+                    Assert.IsTrue(estimator.Estimate(@params)[i][j] < 0, string.Format("Failed Gamma {0}", estimator.Estimate(@params)[i][j]));
                 }
             }
         }
@@ -102,16 +102,22 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, false);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new GammaEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int i = 0; i < observations.Length; i++)
             {
                 for (int j = 0; j < NumberOfStates; j++)
                 {
-                    Assert.IsTrue(estimator.Gamma[i][j] > 0 && estimator.Gamma[i][j] < 1, string.Format("Failed Gamma {0}, [{1}][{2}]", estimator.Gamma[i][j], i, j));
+                    Assert.IsTrue(estimator.Estimate(@params)[i][j] > 0 && estimator.Estimate(@params)[i][j] < 1, string.Format("Failed Gamma {0}, [{1}][{2}]", estimator.Estimate(@params)[i][j], i, j));
                 }
             }            
         }
@@ -130,16 +136,22 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, true);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new GammaEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int i = 0; i < observations.Length; i++)
             {
                 for (int j = 0; j < numberOfStatesRightLeft; j++)
                 {
-                    Assert.IsTrue(estimator.Gamma[i][j] <= 0 || double.IsNaN(estimator.Gamma[i][j]), string.Format("Failed Gamma [{1}][{2}] : {0}", estimator.Gamma[i][j], i, j));
+                    Assert.IsTrue(estimator.Estimate(@params)[i][j] <= 0 || double.IsNaN(estimator.Estimate(@params)[i][j]), string.Format("Failed Gamma [{1}][{2}] : {0}", estimator.Estimate(@params)[i][j], i, j));
                 }
             }
         }
@@ -159,16 +171,22 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, false);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new GammaEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int i = 0; i < observations.Length; i++)
             {
                 for (int j = 0; j < numberOfStatesRightLeft; j++)
                 {
-                    Assert.IsTrue(estimator.Gamma[i][j] >= 0 && estimator.Gamma[i][j] <= 1, string.Format("Failed Gamma [{1}][{2}] : {0}", estimator.Gamma[i][j], i, j));
+                    Assert.IsTrue(estimator.Estimate(@params)[i][j] >= 0 && estimator.Estimate(@params)[i][j] <= 1, string.Format("Failed Gamma [{1}][{2}] : {0}", estimator.Estimate(@params)[i][j], i, j));
                 }
             }
         }
@@ -185,12 +203,18 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, false);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new GammaEstimator<NormalDistribution>();
             for (int i = 0; i < observations.Length; i++)
             {
-                Assert.AreEqual(1.0d, Math.Round(estimator.Gamma[i].Sum(), 5), string.Format("Failed Gamma Component [{1}] : {0}", estimator.Gamma[i], i));
+                Assert.AreEqual(1.0d, Math.Round(estimator.Estimate(@params)[i].Sum(), 5), string.Format("Failed Gamma Component [{1}] : {0}", estimator.Estimate(@params)[i], i));
             }
         }
 
@@ -208,12 +232,18 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new GammaEstimator<NormalDistribution>(parameters, false);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new GammaEstimator<NormalDistribution>();
             for (int i = 0; i < observations.Length; i++)
             {
-                Assert.AreEqual(1.0d, Math.Round(estimator.Gamma[i].Sum(), 5), string.Format("Failed Gamma Component [{1}] : {0}", estimator.Gamma[i], i));
+                Assert.AreEqual(1.0d, Math.Round(estimator.Estimate(@params)[i].Sum(), 5), string.Format("Failed Gamma Component [{1}] : {0}", estimator.Estimate(@params)[i], i));
             }
         }
     }
