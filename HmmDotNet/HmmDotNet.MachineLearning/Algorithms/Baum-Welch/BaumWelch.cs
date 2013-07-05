@@ -80,7 +80,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunForward(_observations, _currentModel);
                 forwardBackward.RunBackward(_observations, _currentModel);
 
-                var parameters = new ParameterEstimations<DiscreteDistribution>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
                 var @params = new AdvancedEstimationParameters<DiscreteDistribution>
                 {
                     Alpha = forwardBackward.Alpha,
@@ -90,11 +89,11 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     Normalized = _currentModel.Normalized
                 };
                 _gammaEstimator = new GammaEstimator<DiscreteDistribution>();
-                _ksiEstimator = new KsiEstimator<DiscreteDistribution>(parameters, Normalized);
+                _ksiEstimator = new KsiEstimator<DiscreteDistribution>();
                 
                 // Estimate transition probabilities and start distribution
                 EstimatePi(_gammaEstimator.Estimate(@params));
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Ksi, _observations.Count);
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
                 // Estimate Emmisions
                 for (var j = 0; j < _currentModel.N; j++)
                 {

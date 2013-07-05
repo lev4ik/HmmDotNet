@@ -48,19 +48,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
         [TestMethod]
         public void KsiEstimator_Parameters_KsiEstimatorCreated()
         {
-            var util = new TestDataUtils();
-            var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
-            var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) });//new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
-            model.Normalized = true;
-            var baseParameters = new BasicEstimationParameters<NormalDistribution> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
-            var alphaEstimator = new AlphaEstimator<NormalDistribution>();
-            var alpha = alphaEstimator.Estimate(baseParameters);
-            var betaEstimator = new BetaEstimator<NormalDistribution>();
-            var beta = betaEstimator.Estimate(baseParameters);
-
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, true);
+            var estimator = new KsiEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
         }
@@ -77,10 +65,15 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, true);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new KsiEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int t = 0; t < observations.Length - 1; t++)
@@ -89,7 +82,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 {
                     for (int j = 0; j < NumberOfStates; j++)
                     {
-                        Assert.IsTrue(estimator.Ksi[t][i, j] < 0, string.Format("Failed Ksi {0}", estimator.Ksi[t][i, j]));
+                        Assert.IsTrue(estimator.Estimate(@params)[t][i, j] < 0, string.Format("Failed Ksi {0}", estimator.Estimate(@params)[t][i, j]));
                     }                    
                 }
             }
@@ -107,10 +100,16 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
 
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new KsiEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int t = 0; t < observations.Length - 1; t++)
@@ -119,7 +118,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 {
                     for (int j = 0; j < NumberOfStates; j++)
                     {
-                        Assert.IsTrue(estimator.Ksi[t][i, j] > 0 && estimator.Ksi[t][i, j] < 1, string.Format("Failed Ksi {0}", estimator.Ksi[t][i, j]));
+                        Assert.IsTrue(estimator.Estimate(@params)[t][i, j] > 0 && estimator.Estimate(@params)[t][i, j] < 1, string.Format("Failed Ksi {0}", estimator.Estimate(@params)[t][i, j]));
                     }
                 }
             }
@@ -139,9 +138,15 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
-
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, true);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new KsiEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int t = 0; t < observations.Length - 1; t++)
@@ -150,7 +155,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 {
                     for (int j = 0; j < numberOfStatesRightLeft; j++)
                     {
-                        Assert.IsTrue(estimator.Ksi[t][i, j] < 0 || double.IsNaN(estimator.Ksi[t][i, j]), string.Format("Failed Ksi [{1}][{2},{3}] : {0}", estimator.Ksi[t][i, j], t, i, j));
+                        Assert.IsTrue(estimator.Estimate(@params)[t][i, j] < 0 || double.IsNaN(estimator.Estimate(@params)[t][i, j]), string.Format("Failed Ksi [{1}][{2},{3}] : {0}", estimator.Estimate(@params)[t][i, j], t, i, j));
                     }
                 }
             }
@@ -170,9 +175,16 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
 
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
+            var estimator = new KsiEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
             for (int t = 0; t < observations.Length - 1; t++)
@@ -181,7 +193,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 {
                     for (int j = 0; j < numberOfStatesRightLeft; j++)
                     {
-                        Assert.IsTrue(estimator.Ksi[t][i, j] >= 0 && estimator.Ksi[t][i, j] < 1, string.Format("Failed Ksi [{1}][{2},{3}]:{0}", estimator.Ksi[t][i, j], t, i, j));
+                        Assert.IsTrue(estimator.Estimate(@params)[t][i, j] >= 0 && estimator.Estimate(@params)[t][i, j] < 1, string.Format("Failed Ksi [{1}][{2},{3}]:{0}", estimator.Estimate(@params)[t][i, j], t, i, j));
                     }
                 }
             }
@@ -199,12 +211,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
 
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
+            var estimator = new KsiEstimator<NormalDistribution>();
             for (int t = 0; t < observations.Length - 1; t++)
             {
-                Assert.AreEqual(1.0d, Math.Round(estimator.Ksi[t].Sum(), 5), string.Format("Failed Ksi [{1}] :{0}", new Matrix(estimator.Ksi[t]), t));
+                Assert.AreEqual(1.0d, Math.Round(estimator.Estimate(@params)[t].Sum(), 5), string.Format("Failed Ksi [{1}] :{0}", new Matrix(estimator.Estimate(@params)[t]), t));
             }
         }
 
@@ -223,12 +242,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<NormalDistribution>(model, Helper.Convert(observations), alpha, beta);
+            var @params = new AdvancedEstimationParameters<NormalDistribution>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                Model = model,
+                Normalized = model.Normalized
+            };
+            var estimator = new KsiEstimator<NormalDistribution>();
 
-            var estimator = new KsiEstimator<NormalDistribution>(parameters, false);
             for (int t = 0; t < observations.Length - 1; t++)
             {
-                Assert.AreEqual(1.0d, Math.Round(estimator.Ksi[t].Sum(), 5), string.Format("Failed Ksi [{1}] :{0}", new Matrix(estimator.Ksi[t]), t));
+                Assert.AreEqual(1.0d, Math.Round(estimator.Estimate(@params)[t].Sum(), 5), string.Format("Failed Ksi [{1}] :{0}", new Matrix(estimator.Estimate(@params)[t]), t));
             }
         }
 

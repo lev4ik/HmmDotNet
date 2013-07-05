@@ -77,7 +77,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     Normalized = _currentModel.Normalized
                 };
                 _gammaEstimator = new GammaEstimator<Mixture<IMultivariateDistribution>>();
-                _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator, Normalized);
+                _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>();
                 var mixtureCoefficientsEstimator = new MixtureCoefficientsEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator);
                 var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Mean
                 var mixtureSigmaEstimator = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Covariance
@@ -86,7 +86,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     mixtureCoefficientsEstimator.Denormalize();
                 }
                 EstimatePi(_gammaEstimator.Estimate(@params));
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Ksi, _observations.Count);
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
                 for (var n = 0; n < _currentModel.N; n++)
                 {
                     var mixturesComponents = _currentModel.Emission[n].Coefficients.Length;                    

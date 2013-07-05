@@ -6,7 +6,6 @@ using HmmDotNet.MachineLearning;
 using HmmDotNet.MachineLearning.Algorithms;
 using HmmDotNet.MachineLearning.Algorithms.Clustering;
 using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.MachineLearning.Estimators;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;

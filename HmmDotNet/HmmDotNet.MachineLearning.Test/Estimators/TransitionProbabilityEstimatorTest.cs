@@ -62,7 +62,6 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
             var alpha = alphaEstimator.Estimate(baseEstimator);
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseEstimator);
-            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, beta);
             var @params = new AdvancedEstimationParameters<NormalDistribution>
             {
                 Alpha = alpha,
@@ -72,13 +71,14 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
                 Normalized = model.Normalized
             };
             var gammaEstimator = new GammaEstimator<NormalDistribution>();
-            var ksiEstimator = new KsiEstimator<NormalDistribution>(estimationParameters, model.Normalized);
+            var ksiEstimator = new KsiEstimator<NormalDistribution>();
             var gamma = gammaEstimator.Estimate(@params);
+            var ksi = ksiEstimator.Estimate(@params);
             var estimator = new TransitionProbabilityEstimator<NormalDistribution>();
             var parameters = new KsiGammaTransitionProbabilityMatrixParameters<NormalDistribution>
                 {
                     Model = model,
-                    Ksi = ksiEstimator.Ksi,
+                    Ksi = ksi,
                     Gamma = gamma,
                     T = observations.Length,
                     Normalized = model.Normalized
@@ -143,7 +143,7 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
 
             var betaEstimator = new BetaEstimator<NormalDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var estimationParameters = new ParameterEstimations<NormalDistribution>(model, observationsList, alpha, beta);
+
             var @params = new AdvancedEstimationParameters<NormalDistribution>
             {
                 Alpha = alpha,
@@ -153,13 +153,13 @@ namespace HmmDotNet.MachineLearning.Test.Estimators
                 Normalized = model.Normalized
             };
             var gammaEstimator = new GammaEstimator<NormalDistribution>();
-            var ksiEstimator = new KsiEstimator<NormalDistribution>(estimationParameters, model.Normalized);
+            var ksiEstimator = new KsiEstimator<NormalDistribution>();
 
             var estimatorKsiGamma = new TransitionProbabilityEstimator<NormalDistribution>();
             var parametersKsiGamma = new KsiGammaTransitionProbabilityMatrixParameters<NormalDistribution>
             {
                 Model = model,
-                Ksi = ksiEstimator.Ksi,
+                Ksi = ksiEstimator.Estimate(@params),
                 Gamma = gammaEstimator.Estimate(@params),
                 T = observations.Length,
                 Normalized = model.Normalized

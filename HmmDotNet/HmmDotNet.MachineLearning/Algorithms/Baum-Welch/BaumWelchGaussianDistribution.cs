@@ -67,7 +67,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunForward(_observations, _currentModel);
                 forwardBackward.RunBackward(_observations, _currentModel);
 
-                var parameters = new ParameterEstimations<NormalDistribution>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
                 var @params = new AdvancedEstimationParameters<NormalDistribution>
                 {
                     Alpha = forwardBackward.Alpha,
@@ -77,12 +76,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     Normalized = _currentModel.Normalized
                 };
                 _gammaEstimator = new GammaEstimator<NormalDistribution>();
-                _ksiEstimator = new KsiEstimator<NormalDistribution>(parameters, Normalized);
+                _ksiEstimator = new KsiEstimator<NormalDistribution>();
                 _muEstimator = new MuEstimator<NormalDistribution>(_currentModel, _observations);
                 _sigmaEstimator = new SigmaEstimator<NormalDistribution>(_currentModel, _observations);
 
                 EstimatePi(_gammaEstimator.Estimate(@params));
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Ksi, _observations.Count);
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
                 // Estimate observation probabilities
                 var muVector = _muEstimator.MuUnivariate(_gammaEstimator.Estimate(@params));
                 var sigmaVector = _sigmaEstimator.SigmaUnivariate(_gammaEstimator.Estimate(@params), muVector);

@@ -184,26 +184,36 @@ namespace HmmDotNet.MachineLearning.Test
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<DiscreteDistribution>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<DiscreteDistribution>(model, observations, alpha, beta);
-            var ksiEstimator = new KsiEstimator<DiscreteDistribution>(parameters, model.Normalized);
 
-            Assert.AreEqual(0.28593281418422561, ksiEstimator.Ksi[0][0, 0]);
-            Assert.AreEqual(0.53991543690975563, ksiEstimator.Ksi[0][0, 1]);
-            Assert.AreEqual(0.021024471631193059, ksiEstimator.Ksi[0][1, 0]);
-            Assert.AreEqual(0.15312727727482567, ksiEstimator.Ksi[0][1, 1]);
-            Assert.AreEqual(1d, ksiEstimator.Ksi[0].Sum());
+            var @params = new AdvancedEstimationParameters<DiscreteDistribution>
+                {
+                    Alpha = alpha,
+                    Beta = beta,
+                    Observations = observations,
+                    Model = model,
+                    Normalized = model.Normalized
+                };
 
-            Assert.AreEqual(0.10140018110107153, ksiEstimator.Ksi[1][0, 0]);
-            Assert.AreEqual(0.20555710471434716, ksiEstimator.Ksi[1][0, 1]);
-            Assert.AreEqual(0.0785838542018705, ksiEstimator.Ksi[1][1, 0]);
-            Assert.AreEqual(0.61445885998271088, ksiEstimator.Ksi[1][1, 1]);
-            Assert.AreEqual(1d, ksiEstimator.Ksi[1].Sum());
+            var ksiEstimator = new KsiEstimator<DiscreteDistribution>();
+            var ksi = ksiEstimator.Estimate(@params);
 
-            Assert.AreEqual(0.045953370715644766, ksiEstimator.Ksi[2][0, 0]);
-            Assert.AreEqual(0.13403066458729723, ksiEstimator.Ksi[2][0, 1]);
-            Assert.AreEqual(0.06694007875078023, ksiEstimator.Ksi[2][1, 0]);
-            Assert.AreEqual(0.75307588594627772, ksiEstimator.Ksi[2][1, 1]);
-            Assert.AreEqual(1d, ksiEstimator.Ksi[2].Sum());
+            Assert.AreEqual(0.28593281418422561, ksi[0][0, 0]);
+            Assert.AreEqual(0.53991543690975563, ksi[0][0, 1]);
+            Assert.AreEqual(0.021024471631193059, ksi[0][1, 0]);
+            Assert.AreEqual(0.15312727727482567, ksi[0][1, 1]);
+            Assert.AreEqual(1d, ksi[0].Sum());
+
+            Assert.AreEqual(0.10140018110107153, ksi[1][0, 0]);
+            Assert.AreEqual(0.20555710471434716, ksi[1][0, 1]);
+            Assert.AreEqual(0.0785838542018705, ksi[1][1, 0]);
+            Assert.AreEqual(0.61445885998271088, ksi[1][1, 1]);
+            Assert.AreEqual(1d, ksi[1].Sum());
+
+            Assert.AreEqual(0.045953370715644766, ksi[2][0, 0]);
+            Assert.AreEqual(0.13403066458729723, ksi[2][0, 1]);
+            Assert.AreEqual(0.06694007875078023, ksi[2][1, 0]);
+            Assert.AreEqual(0.75307588594627772, ksi[2][1, 1]);
+            Assert.AreEqual(1d, ksi[2].Sum());
         }
     }
 }
