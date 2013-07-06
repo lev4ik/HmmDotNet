@@ -65,34 +65,41 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 // Run Forward-Backward procedure
                 forwardBackward.RunForward(_observations, _currentModel);
                 forwardBackward.RunBackward(_observations, _currentModel);
-                // Calculate Gamma and Xi 
-                // TODO : Add summing over t for Ksi and gamma for future calculations in differen data structure
+                // Calculate Gamma and Xi                 
                 var parameterEstimator = new ParameterEstimations<Mixture<IMultivariateDistribution>>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
-                var @params = new AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+                var @params = new MixtureCoefficientEstimationParameters<Mixture<IMultivariateDistribution>>
                 {
                     Alpha = forwardBackward.Alpha,
                     Beta = forwardBackward.Beta,
                     Observations = _observations,
                     Model = _currentModel,
-                    Normalized = _currentModel.Normalized
+                    Normalized = _currentModel.Normalized,
+                    L = _currentModel.Emission[0].Components.Length
                 };
                 _gammaEstimator = new GammaEstimator<Mixture<IMultivariateDistribution>>();
                 _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>();
-                var mixtureCoefficientsEstimator = new MixtureCoefficientsEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator);
+                var mixtureCoefficientsEstimator = new MixtureCoefficientsEstimator<Mixture<IMultivariateDistribution>>();
                 var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Mean
                 var mixtureSigmaEstimator = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Covariance
-                if (Normalized)
-                {
-                    mixtureCoefficientsEstimator.Denormalize();
-                }
+                var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+                @params.Gamma = _gammaEstimator.Estimate(@params);
+                @params.GammaComponents = mixtureGammaEstimator.Estimate(@params);
+
+
                 EstimatePi(_gammaEstimator.Estimate(@params));
                 EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
+
                 for (var n = 0; n < _currentModel.N; n++)
                 {
-                    var mixturesComponents = _currentModel.Emission[n].Coefficients.Length;                    
+                    var mixturesComponents = _currentModel.Emission[n].Coefficients.Length;
                     var distributions = new IMultivariateDistribution[mixturesComponents];
                     // Calculate coefficients for state n
-                    var coefficients = mixtureCoefficientsEstimator.Coefficients[n];
+                    
+                    var coefficients = mixtureCoefficientsEstimator.Estimate(@params)[n];
+                    if (Normalized)
+                    {
+                        mixtureCoefficientsEstimator.Denormalize();
+                    }
                     for (var l = 0; l < mixturesComponents; l++)
                     {
                         distributions[l] = new NormalDistribution(mixtureMuEstimator.Mu[n, l], mixtureSigmaEstimator.Sigma[n, l]);
