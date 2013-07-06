@@ -64,7 +64,23 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var beta = betaEstimator.Estimate(baseParameters);
 
             var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureSigmaEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Model = model,
+                Normalized = model.Normalized,
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                L = model.Emission[0].Components.Length
+            };
+            var gamma = mixtureGammaEstimator.Estimate(@params as AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>);
+            var gammaComponens = mixtureGammaEstimator.Estimate(@params);
+            @params.Gamma = gamma;
+            @params.GammaComponents = gammaComponens;
+            @params.Mu = mixtureMuEstimator.Estimate(@params);
 
             for (int i = 0; i < NumberOfStates; i++)
             {
@@ -74,7 +90,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                     {
                         for (int cols = 0; cols < parameters.Observation[0].Dimention; cols++)
                         {
-                            Assert.IsTrue(sigma.Sigma[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Sigma[i, l][rows, cols]));
+                            Assert.IsTrue(sigma.Estimate(@params)[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Estimate(@params)[i, l][rows, cols]));
                         }
                     }
                 }
@@ -95,7 +111,23 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var beta = betaEstimator.Estimate(baseParameters);
 
             var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureSigmaEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Model = model,
+                Normalized = model.Normalized,
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                L = model.Emission[0].Components.Length
+            };
+            var gamma = mixtureGammaEstimator.Estimate(@params as AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>);
+            var gammaComponens = mixtureGammaEstimator.Estimate(@params);
+            @params.Gamma = gamma;
+            @params.GammaComponents = gammaComponens;
+            @params.Mu = mixtureMuEstimator.Estimate(@params);
 
             for (int i = 0; i < NumberOfStates; i++)
             {
@@ -105,7 +137,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                     {
                         for (int cols = 0; cols < parameters.Observation[0].Dimention; cols++)
                         {
-                            Assert.IsTrue(sigma.Sigma[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Sigma[i, l][rows, cols]));
+                            Assert.IsTrue(sigma.Estimate(@params)[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Estimate(@params)[i, l][rows, cols]));
                         }
                     }
                 }
@@ -127,7 +159,23 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var beta = betaEstimator.Estimate(baseParameters);
 
             var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureSigmaEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Model = model,
+                Normalized = model.Normalized,
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                L = model.Emission[0].Components.Length
+            };
+            var gamma = mixtureGammaEstimator.Estimate(@params as AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>);
+            var gammaComponens = mixtureGammaEstimator.Estimate(@params);
+            @params.Gamma = gamma;
+            @params.GammaComponents = gammaComponens;
+            @params.Mu = mixtureMuEstimator.Estimate(@params);
 
             for (int i = 0; i < NumberOfStatesRightLeft; i++)
             {
@@ -137,7 +185,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                     {
                         for (int cols = 0; cols < parameters.Observation[0].Dimention; cols++)
                         {
-                            Assert.IsTrue(sigma.Sigma[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Sigma[i, l][rows, cols]));
+                            Assert.IsTrue(sigma.Estimate(@params)[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Estimate(@params)[i, l][rows, cols]));
                         }
                     }
                 }
@@ -159,7 +207,23 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var beta = betaEstimator.Estimate(baseParameters);
 
             var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var sigma = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureSigmaEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Model = model,
+                Normalized = model.Normalized,
+                Alpha = alpha,
+                Beta = beta,
+                Observations = Helper.Convert(observations),
+                L = model.Emission[0].Components.Length
+            };
+            var gamma = mixtureGammaEstimator.Estimate(@params as AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>);
+            var gammaComponens = mixtureGammaEstimator.Estimate(@params);
+            @params.Gamma = gamma;
+            @params.GammaComponents = gammaComponens;
+            @params.Mu = mixtureMuEstimator.Estimate(@params);
 
             for (int i = 0; i < NumberOfStatesRightLeft; i++)
             {
@@ -169,7 +233,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                     {
                         for (int cols = 0; cols < parameters.Observation[0].Dimention; cols++)
                         {
-                            Assert.IsTrue(sigma.Sigma[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Sigma[i, l][rows, cols]));
+                            Assert.IsTrue(sigma.Estimate(@params)[i, l][rows, cols] > 0, string.Format("Failed Sigma {0}", sigma.Estimate(@params)[i, l][rows, cols]));
                         }
                     }
                 }

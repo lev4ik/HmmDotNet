@@ -67,7 +67,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunBackward(_observations, _currentModel);
                 // Calculate Gamma and Xi                 
                 var parameterEstimator = new ParameterEstimations<Mixture<IMultivariateDistribution>>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
-                var @params = new MixtureCoefficientEstimationParameters<Mixture<IMultivariateDistribution>>
+                var @params = new MixtureSigmaEstimationParameters<Mixture<IMultivariateDistribution>>
                 {
                     Alpha = forwardBackward.Alpha,
                     Beta = forwardBackward.Beta,
@@ -80,7 +80,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>();
                 var mixtureCoefficientsEstimator = new MixtureCoefficientsEstimator<Mixture<IMultivariateDistribution>>();
                 var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>(); // Mean
-                var mixtureSigmaEstimator = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Covariance
+                var mixtureSigmaEstimator = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(); // Covariance
                 var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
                 @params.Gamma = _gammaEstimator.Estimate(@params);
                 @params.GammaComponents = mixtureGammaEstimator.Estimate(@params);
@@ -100,9 +100,10 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     {
                         mixtureCoefficientsEstimator.Denormalize();
                     }
+                    @params.Mu = mixtureMuEstimator.Estimate(@params);
                     for (var l = 0; l < mixturesComponents; l++)
                     {
-                        distributions[l] = new NormalDistribution(mixtureMuEstimator.Estimate(@params)[n, l], mixtureSigmaEstimator.Sigma[n, l]);
+                        distributions[l] = new NormalDistribution(mixtureMuEstimator.Estimate(@params)[n, l], mixtureSigmaEstimator.Estimate(@params)[n, l]);
                     }
                     _estimatedEmissions[n] = new Mixture<IMultivariateDistribution>(coefficients, distributions);
                 }
