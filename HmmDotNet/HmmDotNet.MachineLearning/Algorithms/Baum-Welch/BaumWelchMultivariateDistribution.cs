@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation;
 using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
@@ -17,7 +18,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private GammaEstimator<IMultivariateDistribution> _gammaEstimator;
         private KsiEstimator<IMultivariateDistribution> _ksiEstimator;
         private MuMultivariateEstimator<IMultivariateDistribution> _muEstimator;
-        private SigmaEstimator<IMultivariateDistribution> _sigmaEstimator; 
+        private SigmaMultivariateEstimator<IMultivariateDistribution> _sigmaEstimator; 
 
         private readonly IList<IObservation> _observations;
         private IHiddenMarkovModel<IMultivariateDistribution> _estimatedModel;
@@ -78,7 +79,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _gammaEstimator = new GammaEstimator<IMultivariateDistribution>();
                 _ksiEstimator = new KsiEstimator<IMultivariateDistribution>();
                 _muEstimator = new MuMultivariateEstimator<IMultivariateDistribution>();
-                _sigmaEstimator = new SigmaEstimator<IMultivariateDistribution>(_currentModel, _observations);
+                _sigmaEstimator = new SigmaMultivariateEstimator<IMultivariateDistribution>();
 
                 EstimatePi(_gammaEstimator.Estimate(@params));
                 EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
@@ -92,7 +93,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     };
 
                 var muVector = _muEstimator.Estimate(muParams);
-                var sigmaVector = _sigmaEstimator.SigmaMultivariate(_gammaEstimator.Estimate(@params), muVector);
+                var sigmaVector = _sigmaEstimator.Estimate(new SigmaEstimationParameters<IMultivariateDistribution, double[][]>(muParams) { Mean = muVector });
                 for (var n = 0; n < _currentModel.N; n++)
                 {
                     _estimatedEmissions[n] = new NormalDistribution(muVector[n], sigmaVector[n]);

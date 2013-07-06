@@ -16,7 +16,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private GammaEstimator<NormalDistribution> _gammaEstimator;
         private KsiEstimator<NormalDistribution> _ksiEstimator;
         private MuUnivariateEstimator<NormalDistribution> _muEstimator;
-        private SigmaEstimator<NormalDistribution> _sigmaEstimator; 
+        private SigmaUnivariateEstimator<NormalDistribution> _sigmaEstimator; 
  
         private IHiddenMarkovModel<NormalDistribution> _estimatedModel;
         private IHiddenMarkovModel<NormalDistribution> _currentModel; 
@@ -78,7 +78,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _gammaEstimator = new GammaEstimator<NormalDistribution>();
                 _ksiEstimator = new KsiEstimator<NormalDistribution>();
                 _muEstimator = new MuUnivariateEstimator<NormalDistribution>();
-                _sigmaEstimator = new SigmaEstimator<NormalDistribution>(_currentModel, _observations);
+                _sigmaEstimator = new SigmaUnivariateEstimator<NormalDistribution>();
 
                 EstimatePi(_gammaEstimator.Estimate(@params));
                 EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
@@ -91,7 +91,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     Observations = _observations
                 };
                 var muVector = _muEstimator.Estimate(muParams);
-                var sigmaVector = _sigmaEstimator.SigmaUnivariate(_gammaEstimator.Estimate(@params), muVector);
+                var sigmaVector = _sigmaEstimator.Estimate(new SigmaEstimationParameters<NormalDistribution, double[]>(muParams) { Mean = muVector });
                 for (var j = 0; j < _currentModel.N; j++)
                 {
                     _estimatedEmissions[j] = new NormalDistribution(muVector[j], sigmaVector[j]);

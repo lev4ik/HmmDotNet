@@ -1,16 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.Mathematic;
+﻿using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.Base;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using HmmDotNet.Statistics.Distributions;
-using HmmDotNet.Mathematic.Extentions;
 
 namespace HmmDotNet.MachineLearning.Algorithms
 {
-    public class SigmaEstimator<TDistribution> where TDistribution : IDistribution
+    public class SigmaUnivariateEstimator<TDistribution> : IVariableEstimator<double[], SigmaEstimationParameters<TDistribution, double[]>>
+                                                          where TDistribution : IDistribution
     {
-        public SigmaEstimator(IHiddenMarkovModel<TDistribution> model, IList<IObservation> observations)
+        public double[] Estimate(SigmaEstimationParameters<TDistribution, double[]> parameters)
+        {
+            if (_sigmaUnivariate != null)
+            {
+                return _sigmaUnivariate;
+            }
+            _sigmaUnivariate = new double[parameters.Model.N];
+            for (var n = 0; n < parameters.Model.N; n++)
+            {
+                var T = parameters.Observations.Count;
+
+                var variance = 0d;
+                var nK = 0d;
+                for (var t = 0; t < T; t++)
+                {
+                    nK += parameters.Gamma[t][n];
+                    var x = parameters.Observations[t].Value[0];
+                    var z = x - parameters.Mean[n];
+                    var m = z * z;
+                    m = m * parameters.Gamma[t][n];
+                    variance = variance + m;
+                }
+                _sigmaUnivariate[n] = variance / nK;
+            }
+            
+            return _sigmaUnivariate;
+        }
+        private double[] _sigmaUnivariate;
+
+ /*       public SigmaUnivariateEstimator(IHiddenMarkovModel<TDistribution> model, IList<IObservation> observations)
         {
             _model = model;
             _observations = observations;
@@ -20,7 +46,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         private readonly IList<IObservation> _observations;
 
-        private double[] _sigmaUnivariate;
+        
 
         private double[][,] _sigmaMultivariate;
         
@@ -111,6 +137,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
             }
             return _sigmaMultivariate;
-        }
+        }*/
     }
 }
