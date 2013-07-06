@@ -58,6 +58,7 @@
     <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\AlphaBetaTransitionProbabiltyMatrixParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\BasicEstimationParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\KsiGammaTransitionProbabilityMatrixParameters.cs" />
+    <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\MixtureAdvancedEstimationParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\PiParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\MuEstimationParameters.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\EstimationParameters\SigmaEstimationParameters.cs" />

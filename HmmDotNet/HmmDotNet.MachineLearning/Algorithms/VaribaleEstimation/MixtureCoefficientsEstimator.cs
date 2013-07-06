@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.Base;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
@@ -13,7 +14,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         public MixtureCoefficientsEstimator(IParameterEstimations<TDistribution> parameters)
         {
             _parameters = parameters;
-            _gammaComponentsEstimator = new MixtureGammaEstimator<TDistribution>(parameters);
+            _gammaComponentsEstimator = new MixtureGammaEstimator<TDistribution>();
             _denormalized = false;
         }
 
@@ -33,6 +34,15 @@ namespace HmmDotNet.MachineLearning.Algorithms
             {
                 if (_denominator == null)
                 {
+                    var @params = new MixtureAdvancedEstimationParameters<TDistribution>
+                    {
+                        Alpha = _parameters.Alpha,
+                        Beta = _parameters.Beta,
+                        L = _parameters.L,
+                        Model = _parameters.Model,
+                        Normalized = _parameters.Model.Normalized,
+                        Observations = _parameters.Observation
+                    };
                     _denominator = new double[_parameters.Model.N];
                     for (var i = 0; i < _parameters.Model.N; i++)
                     {
@@ -41,12 +51,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
                         {
                             if (_parameters.Model.Normalized)
                             {
-                                _denominator[i] = LogExtention.eLnSum(_gammaComponentsEstimator.Gamma[t][i],
+                                _denominator[i] = LogExtention.eLnSum(_gammaComponentsEstimator.Estimate(@params as AdvancedEstimationParameters<TDistribution>)[t][i],
                                                                       _denominator[i]);
                             }
                             else
                             {
-                                _denominator[i] += _gammaComponentsEstimator.Gamma[t][i];
+                                _denominator[i] += _gammaComponentsEstimator.Estimate(@params as AdvancedEstimationParameters<TDistribution>)[t][i];
                             }
                         }
                     }
@@ -63,6 +73,15 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 {
                     try
                     {
+                        var @params = new MixtureAdvancedEstimationParameters<TDistribution>
+                        {
+                            Alpha = _parameters.Alpha,
+                            Beta = _parameters.Beta,
+                            L = _parameters.L,
+                            Model = _parameters.Model,
+                            Normalized = _parameters.Model.Normalized,
+                            Observations = _parameters.Observation
+                        };
                         _coefficients = new double[_parameters.Model.N][];
                         for (var i = 0; i < _parameters.Model.N; i++)
                         {
@@ -74,12 +93,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
                                 {
                                     if (_parameters.Model.Normalized)
                                     {
-                                        nominator = LogExtention.eLnSum(_gammaComponentsEstimator.GammaComponents[t][i, l],
+                                        nominator = LogExtention.eLnSum(_gammaComponentsEstimator.Estimate(@params)[t][i, l],
                                                                         nominator);
                                     }
                                     else
                                     {
-                                        nominator += _gammaComponentsEstimator.GammaComponents[t][i, l];
+                                        nominator += _gammaComponentsEstimator.Estimate(@params)[t][i, l];
                                     }
                                 }
 

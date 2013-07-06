@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
@@ -11,7 +12,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
         public MixtureSigmaEstimator(IParameterEstimations<TDistribution> parameters)
         {
             _parameters = parameters;
-            _gammaComponentsEstimator = new MixtureGammaEstimator<TDistribution>(parameters);
+            _gammaComponentsEstimator = new MixtureGammaEstimator<TDistribution>();
             _muEstimator = new MixtureMuEstimator<TDistribution>(_parameters);
         }
 
@@ -31,6 +32,15 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 {
                     try
                     {
+                        var @params = new MixtureAdvancedEstimationParameters<TDistribution>
+                        {
+                            Alpha = _parameters.Alpha,
+                            Beta = _parameters.Beta,
+                            L = _parameters.L,
+                            Model = _parameters.Model,
+                            Normalized = _parameters.Model.Normalized,
+                            Observations = _parameters.Observation
+                        };
                         _sigma = new double[_parameters.Model.N, _parameters.L][,];
                         for (var i = 0; i < _parameters.Model.N; i++)
                         {
@@ -43,8 +53,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
                                     var x = _parameters.Observation[t].Value;
                                     var z = x.Substruct(_muEstimator.Mu[i, l]);
                                     var m = z.OuterProduct(z);
-                                    var gamma = (_parameters.Model.Normalized) ? LogExtention.eExp(_gammaComponentsEstimator.GammaComponents[t][i, l])
-                                                                                  : _gammaComponentsEstimator.GammaComponents[t][i, l];
+                                    var gamma = (_parameters.Model.Normalized) ? LogExtention.eExp(_gammaComponentsEstimator.Estimate(@params)[t][i, l])
+                                                                                  : _gammaComponentsEstimator.Estimate(@params)[t][i, l];
                                     m = m.Product(gamma);
                                     denominator += gamma;
                                     nominator = nominator.Add(m);

@@ -47,18 +47,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
         [TestMethod]
         public void MixtureGammaEstimator_ParametersAndLogNormilized_MixtureGammaEstimatorCreated()
         {
-            var util = new TestDataUtils();
-            var observations = util.GetSvcData(util.FTSEFilePath, new DateTime(2011, 11, 18), new DateTime(2011, 12, 18));
-            var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates, NumberOfComponents) });//new HiddenMarkovModelState<Mixture<IMultivariateDistribution>>(NumberOfStates, CreateEmissions(observations, NumberOfStates, NumberOfComponents)) { LogNormalized = true };
-            model.Normalized = true;
-            var baseParameters = new BasicEstimationParameters<Mixture<IMultivariateDistribution>> { Model = model, Observations = Helper.Convert(observations), Normalized = model.Normalized };
-            var alphaEstimator = new AlphaEstimator<Mixture<IMultivariateDistribution>>();
-            var alpha = alphaEstimator.Estimate(baseParameters);
-            var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
-            var beta = betaEstimator.Estimate(baseParameters);
-
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var gamma = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var gamma = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
 
             Assert.IsNotNull(gamma);
         }
@@ -75,11 +64,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var gamma = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var gamma = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
 
-            Assert.IsNotNull(gamma.Gamma);
-            Assert.IsNotNull(gamma.GammaComponents);
+            Assert.IsNotNull(gamma.Estimate(@params as AdvancedEstimationParameters<Mixture<IMultivariateDistribution>>));
+            Assert.IsNotNull(gamma.Estimate(@params));
         }
 
         [TestMethod]
@@ -95,11 +92,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
 
             Assert.IsNotNull(estimator);
-            var gammaComponents = estimator.GammaComponents;
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
+            var gammaComponents = estimator.Estimate(@params);
             for (int t = 0; t < observations.Length; t++)
             {
                 for (int i = 0; i < NumberOfStates; i++)
@@ -124,11 +129,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var alpha = alphaEstimator.Estimate(baseParameters);
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
 
             Assert.IsNotNull(estimator);
-            var gammaComponents = estimator.GammaComponents;
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
+            var gammaComponents = estimator.Estimate(@params);
             for (int t = 0; t < observations.Length; t++)
             {
                 for (int i = 0; i < NumberOfStates; i++)
@@ -155,11 +168,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
 
             Assert.IsNotNull(estimator);
-            var gammaComponents = estimator.GammaComponents;
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
+            var gammaComponents = estimator.Estimate(@params);
             for (int t = 0; t < observations.Length; t++)
             {
                 for (int i = 0; i < NumberOfStatesRightLeft; i++)
@@ -186,11 +207,19 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
+            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
 
             Assert.IsNotNull(estimator);
-            var gammaComponents = estimator.GammaComponents;
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
+            var gammaComponents = estimator.Estimate(@params);
             for (int t = 0; t < observations.Length; t++)
             {
                 for (int i = 0; i < NumberOfStatesRightLeft; i++)
@@ -216,10 +245,17 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
-
-            var gammaComponents = estimator.GammaComponents;
+            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
+            var gammaComponents = estimator.Estimate(@params);
             for (int t = 0; t < observations.Length; t++)
             {
                 Assert.AreEqual(1.0d, Math.Round(gammaComponents[t].Sum(),5), string.Format("Failed Gamma Components {0} at time {1}", new Matrix(gammaComponents[t]), t));
@@ -241,10 +277,17 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var betaEstimator = new BetaEstimator<Mixture<IMultivariateDistribution>>();
             var beta = betaEstimator.Estimate(baseParameters);
 
-            var parameters = new ParameterEstimations<Mixture<IMultivariateDistribution>>(model, Helper.Convert(observations), alpha, beta);
-            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>(parameters);
-
-            var gammaComponents = estimator.GammaComponents;
+            var estimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
+            var @params = new MixtureAdvancedEstimationParameters<Mixture<IMultivariateDistribution>>
+            {
+                Alpha = alpha,
+                Beta = beta,
+                L = model.Emission[0].Components.Length,
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = Helper.Convert(observations)
+            };
+            var gammaComponents = estimator.Estimate(@params);
             for (int t = 0; t < observations.Length; t++)
             {
                 Assert.AreEqual(1.0d, Math.Round(gammaComponents[t].Sum(), 5), string.Format("Failed Gamma Components {0} at time {1}", new Matrix(gammaComponents[t]), t));
