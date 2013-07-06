@@ -1,12 +1,11 @@
 ﻿using System;
-using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HmmDotNet.Logic.Test.MachineLearning.Data;
 using HmmDotNet.MachineLearning;
 using HmmDotNet.MachineLearning.Algorithms;
 using HmmDotNet.MachineLearning.Algorithms.Clustering;
 using HmmDotNet.MachineLearning.Base;
-using HmmDotNet.MachineLearning.Estimators;
 using HmmDotNet.MachineLearning.HiddenMarkovModels;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;

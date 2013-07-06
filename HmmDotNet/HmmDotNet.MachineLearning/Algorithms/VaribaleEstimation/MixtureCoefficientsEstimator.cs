@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.Base;
 using HmmDotNet.Mathematic;
 using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;

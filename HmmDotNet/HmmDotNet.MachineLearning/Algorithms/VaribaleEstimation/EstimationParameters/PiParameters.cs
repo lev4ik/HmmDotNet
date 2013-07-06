@@ -1,6 +1,6 @@
-﻿using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base;
+﻿using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.Base;
 
-namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters
+namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters
 {
     public class PiParameters : IEstimationParameters
     {

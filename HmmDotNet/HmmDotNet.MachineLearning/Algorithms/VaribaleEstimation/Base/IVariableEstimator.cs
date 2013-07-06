@@ -1,4 +1,4 @@
-﻿namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base
+﻿namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.Base
 {
     public interface IVariableEstimator<out T, in P> where P : IEstimationParameters
     {

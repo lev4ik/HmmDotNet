@@ -1,5 +1,5 @@
 ﻿using System;
-using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HmmDotNet.Logic.Test.MachineLearning.Data;
 using HmmDotNet.MachineLearning;

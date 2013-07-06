@@ -1,6 +1,6 @@
 ﻿using HmmDotNet.Statistics.Distributions;
 
-namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters
+namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters
 {
     public class AdvancedEstimationParameters<TDistribution> : BasicEstimationParameters<TDistribution> where TDistribution : IDistribution
     {

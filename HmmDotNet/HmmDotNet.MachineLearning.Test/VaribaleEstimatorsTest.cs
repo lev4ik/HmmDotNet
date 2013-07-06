@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters;
+using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HmmDotNet.MachineLearning.Algorithms;
 using HmmDotNet.MachineLearning.Base;

@@ -1,8 +1,8 @@
-﻿using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.Base;
+﻿using HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.Base;
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.Statistics.Distributions;
 
-namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator.EstimationParameters
+namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters
 {
     public class AlphaBetaTransitionProbabiltyMatrixParameters<TDistribution> : IEstimationParameters where TDistribution : IDistribution
     {

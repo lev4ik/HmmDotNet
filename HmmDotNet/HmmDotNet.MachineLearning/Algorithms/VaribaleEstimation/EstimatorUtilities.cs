@@ -2,7 +2,7 @@
 using HmmDotNet.MachineLearning.Base;
 using HmmDotNet.Statistics.Distributions;
 
-namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimationCalculator
+namespace HmmDotNet.MachineLearning.Algorithms
 {
     public static class EstimatorUtilities
     {
