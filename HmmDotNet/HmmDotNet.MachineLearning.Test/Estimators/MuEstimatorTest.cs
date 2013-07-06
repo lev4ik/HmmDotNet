@@ -43,7 +43,7 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
             var model = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution>() { NumberOfStates = NumberOfStates, Emissions = CreateEmissions(observations, NumberOfStates) }); //new HiddenMarkovModelState<NormalDistribution>(NumberOfStates, CreateEmissions(observations, NumberOfStates)) { LogNormalized = true };
             model.Normalized = true;
 
-            var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
+            var estimator = new MuMultivariateEstimator<NormalDistribution>();
 
             Assert.IsNotNull(estimator);
         }
@@ -69,11 +69,17 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 Observations = sequence,
                 Model = model
             };
-            var gammEstimator = new GammaEstimator<NormalDistribution>();
-            var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
-
+            var gammaEstimator = new GammaEstimator<NormalDistribution>();
+            var estimator = new MuMultivariateEstimator<NormalDistribution>();
+            var muParams = new MuEstimationParameters<NormalDistribution>
+            {
+                Gamma = gammaEstimator.Estimate(@params),
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = sequence
+            };
             Assert.IsNotNull(estimator);
-            var mu = estimator.MuMultivariate(gammEstimator.Estimate(@params));
+            var mu = estimator.Estimate(muParams);
 
             for (int i = 0; i < NumberOfStates; i++)
             {
@@ -105,11 +111,17 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 Model = model
             };
 
-            var gammEstimator = new GammaEstimator<NormalDistribution>();
-            var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
-
+            var gammaEstimator = new GammaEstimator<NormalDistribution>();
+            var estimator = new MuMultivariateEstimator<NormalDistribution>();
+            var muParams = new MuEstimationParameters<NormalDistribution>
+            {
+                Gamma = gammaEstimator.Estimate(@params),
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = sequence
+            };
             Assert.IsNotNull(estimator);
-            var mu = estimator.MuMultivariate(gammEstimator.Estimate(@params));
+            var mu = estimator.Estimate(muParams);
 
             for (int i = 0; i < NumberOfStates; i++)
             {
@@ -142,11 +154,17 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 Model = model
             };
 
-            var gammEstimator = new GammaEstimator<NormalDistribution>();
-            var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
-
+            var gammaEstimator = new GammaEstimator<NormalDistribution>();
+            var estimator = new MuMultivariateEstimator<NormalDistribution>();
+            var muParams = new MuEstimationParameters<NormalDistribution>
+            {
+                Gamma = gammaEstimator.Estimate(@params),
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = sequence
+            };
             Assert.IsNotNull(estimator);
-            var mu = estimator.MuMultivariate(gammEstimator.Estimate(@params));
+            var mu = estimator.Estimate(muParams);
 
             for (int i = 0; i < NumberOfStatesRightLeft; i++)
             {
@@ -179,11 +197,17 @@ namespace HmmDotNet.Logic.Test.MachineLearning.Estimators
                 Model = model
             };
 
-            var gammEstimator = new GammaEstimator<NormalDistribution>();
-            var estimator = new MuEstimator<NormalDistribution>(model, Helper.Convert(observations));
-
+            var gammaEstimator = new GammaEstimator<NormalDistribution>();
+            var estimator = new MuMultivariateEstimator<NormalDistribution>();
+            var muParams = new MuEstimationParameters<NormalDistribution>
+            {
+                Gamma = gammaEstimator.Estimate(@params),
+                Model = model,
+                Normalized = model.Normalized,
+                Observations = sequence
+            };
             Assert.IsNotNull(estimator);
-            var mu = estimator.MuMultivariate(gammEstimator.Estimate(@params));
+            var mu = estimator.Estimate(muParams);
 
             for (int i = 0; i < NumberOfStatesRightLeft; i++)
             {

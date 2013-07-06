@@ -5,7 +5,8 @@ using HmmDotNet.Statistics.Distributions;
 
 namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationParameters
 {
-    public class BasicEstimationParameters<TDistribution> : IEstimationParameters where TDistribution : IDistribution
+    public class BasicEstimationParameters<TDistribution> : IEstimationParameters
+                                                            where TDistribution : IDistribution
     {
         public bool Normalized { get; set; }
 

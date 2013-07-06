@@ -16,7 +16,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         private GammaEstimator<IMultivariateDistribution> _gammaEstimator;
         private KsiEstimator<IMultivariateDistribution> _ksiEstimator;
-        private MuEstimator<IMultivariateDistribution> _muEstimator;
+        private MuMultivariateEstimator<IMultivariateDistribution> _muEstimator;
         private SigmaEstimator<IMultivariateDistribution> _sigmaEstimator; 
 
         private readonly IList<IObservation> _observations;
@@ -77,13 +77,21 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     };
                 _gammaEstimator = new GammaEstimator<IMultivariateDistribution>();
                 _ksiEstimator = new KsiEstimator<IMultivariateDistribution>();
-                _muEstimator = new MuEstimator<IMultivariateDistribution>(_currentModel, _observations);
+                _muEstimator = new MuMultivariateEstimator<IMultivariateDistribution>();
                 _sigmaEstimator = new SigmaEstimator<IMultivariateDistribution>(_currentModel, _observations);
 
                 EstimatePi(_gammaEstimator.Estimate(@params));
                 EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
                 // Estimate observation probabilities
-                var muVector = _muEstimator.MuMultivariate(_gammaEstimator.Estimate(@params));
+                var muParams = new MuEstimationParameters<IMultivariateDistribution>
+                    {
+                        Gamma = _gammaEstimator.Estimate(@params),
+                        Model = _currentModel,
+                        Normalized = _currentModel.Normalized,
+                        Observations = _observations
+                    };
+
+                var muVector = _muEstimator.Estimate(muParams);
                 var sigmaVector = _sigmaEstimator.SigmaMultivariate(_gammaEstimator.Estimate(@params), muVector);
                 for (var n = 0; n < _currentModel.N; n++)
                 {
