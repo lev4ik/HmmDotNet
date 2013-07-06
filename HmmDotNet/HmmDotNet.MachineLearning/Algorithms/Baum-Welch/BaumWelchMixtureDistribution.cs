@@ -79,7 +79,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _gammaEstimator = new GammaEstimator<Mixture<IMultivariateDistribution>>();
                 _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>();
                 var mixtureCoefficientsEstimator = new MixtureCoefficientsEstimator<Mixture<IMultivariateDistribution>>();
-                var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Mean
+                var mixtureMuEstimator = new MixtureMuEstimator<Mixture<IMultivariateDistribution>>(); // Mean
                 var mixtureSigmaEstimator = new MixtureSigmaEstimator<Mixture<IMultivariateDistribution>>(parameterEstimator); // Covariance
                 var mixtureGammaEstimator = new MixtureGammaEstimator<Mixture<IMultivariateDistribution>>();
                 @params.Gamma = _gammaEstimator.Estimate(@params);
@@ -102,7 +102,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     }
                     for (var l = 0; l < mixturesComponents; l++)
                     {
-                        distributions[l] = new NormalDistribution(mixtureMuEstimator.Mu[n, l], mixtureSigmaEstimator.Sigma[n, l]);
+                        distributions[l] = new NormalDistribution(mixtureMuEstimator.Estimate(@params)[n, l], mixtureSigmaEstimator.Sigma[n, l]);
                     }
                     _estimatedEmissions[n] = new Mixture<IMultivariateDistribution>(coefficients, distributions);
                 }
