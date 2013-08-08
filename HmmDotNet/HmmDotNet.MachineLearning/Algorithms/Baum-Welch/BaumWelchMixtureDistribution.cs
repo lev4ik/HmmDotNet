@@ -66,7 +66,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunForward(_observations, _currentModel);
                 forwardBackward.RunBackward(_observations, _currentModel);
                 // Calculate Gamma and Xi                 
-                var parameterEstimator = new ParameterEstimations<Mixture<IMultivariateDistribution>>(_currentModel, _observations, forwardBackward.Alpha, forwardBackward.Beta);
                 var @params = new MixtureSigmaEstimationParameters<Mixture<IMultivariateDistribution>>
                 {
                     Alpha = forwardBackward.Alpha,

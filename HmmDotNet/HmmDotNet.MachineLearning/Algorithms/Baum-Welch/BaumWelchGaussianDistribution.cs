@@ -92,9 +92,9 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 };
                 var muVector = _muEstimator.Estimate(muParams);
                 var sigmaVector = _sigmaEstimator.Estimate(new SigmaEstimationParameters<NormalDistribution, double[]>(muParams) { Mean = muVector });
-                for (var j = 0; j < _currentModel.N; j++)
+                for (var n = 0; n < _currentModel.N; n++)
                 {
-                    _estimatedEmissions[j] = new NormalDistribution(muVector[j], sigmaVector[j]);
+                    _estimatedEmissions[n] = new NormalDistribution(muVector[n], sigmaVector[n]);
                 }
                 _estimatedModel = HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<NormalDistribution> { Pi = _estimatedPi, TransitionProbabilityMatrix = _estimatedTransitionProbabilityMatrix, Emissions = _estimatedEmissions });
                 _estimatedModel.Normalized = Normalized;

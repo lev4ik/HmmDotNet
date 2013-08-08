@@ -69,13 +69,13 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 forwardBackward.RunBackward(_observations, _currentModel);
 
                 var @params = new AdvancedEstimationParameters<IMultivariateDistribution>
-                    {
-                        Alpha = forwardBackward.Alpha,
-                        Beta = forwardBackward.Beta,
-                        Observations = _observations,
-                        Model = _currentModel,
-                        Normalized = _currentModel.Normalized
-                    };
+                {
+                    Alpha = forwardBackward.Alpha,
+                    Beta = forwardBackward.Beta,
+                    Observations = _observations,
+                    Model = _currentModel,
+                    Normalized = _currentModel.Normalized
+                };
                 _gammaEstimator = new GammaEstimator<IMultivariateDistribution>();
                 _ksiEstimator = new KsiEstimator<IMultivariateDistribution>();
                 _muEstimator = new MuMultivariateEstimator<IMultivariateDistribution>();
@@ -85,13 +85,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
                 // Estimate observation probabilities
                 var muParams = new MuEstimationParameters<IMultivariateDistribution>
-                    {
-                        Gamma = _gammaEstimator.Estimate(@params),
-                        Model = _currentModel,
-                        Normalized = _currentModel.Normalized,
-                        Observations = _observations
-                    };
-
+                {
+                    Gamma = _gammaEstimator.Estimate(@params),
+                    Model = _currentModel,
+                    Normalized = _currentModel.Normalized,
+                    Observations = _observations
+                };
                 var muVector = _muEstimator.Estimate(muParams);
                 var sigmaVector = _sigmaEstimator.Estimate(new SigmaEstimationParameters<IMultivariateDistribution, double[][]>(muParams) { Mean = muVector });
                 for (var n = 0; n < _currentModel.N; n++)

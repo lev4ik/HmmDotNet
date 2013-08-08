@@ -77,7 +77,7 @@ namespace HmmDotNet.Statistics.Distributions.Univariate
         public override double ProbabilityDensityFunction(params double[] x)
         {
             var exponentPower = -Math.Pow(ZScore(x[0]), 2) / (2 * _variance);
-            var p = (1d / SqrtPi * _variance) * Math.Exp(exponentPower);
+            var p = (1d / (SqrtPi * _variance)) * Math.Exp(exponentPower);
             if (p > 1 || p < 0)
             {
                 throw new ApplicationException(string.Format("Probability function value {0} must be in range [0..1]", p));
