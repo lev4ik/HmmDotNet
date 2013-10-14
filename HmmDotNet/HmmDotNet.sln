@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmmDotNet.Mathematic.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmmDotNet.MachineLearning.Test", "HmmDotNet.MachineLearning.Test\HmmDotNet.MachineLearning.Test.csproj", "{628E3288-439D-434F-9734-83614E1E20D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmmDotNet.TechnicalAnalysis", "HmmDotNet.TechnicalAnalysis\HmmDotNet.TechnicalAnalysis.csproj", "{12A9757B-D699-4671-AF8B-FD89997AD78E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmmDotNet.TechnicalAnalysis.Test", "HmmDotNet.TechnicalAnalysis.Test\HmmDotNet.TechnicalAnalysis.Test.csproj", "{B73C2382-0013-470A-9FD6-0FE1453C5BCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{628E3288-439D-434F-9734-83614E1E20D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{628E3288-439D-434F-9734-83614E1E20D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{628E3288-439D-434F-9734-83614E1E20D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A9757B-D699-4671-AF8B-FD89997AD78E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A9757B-D699-4671-AF8B-FD89997AD78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A9757B-D699-4671-AF8B-FD89997AD78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A9757B-D699-4671-AF8B-FD89997AD78E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B73C2382-0013-470A-9FD6-0FE1453C5BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B73C2382-0013-470A-9FD6-0FE1453C5BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B73C2382-0013-470A-9FD6-0FE1453C5BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B73C2382-0013-470A-9FD6-0FE1453C5BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
