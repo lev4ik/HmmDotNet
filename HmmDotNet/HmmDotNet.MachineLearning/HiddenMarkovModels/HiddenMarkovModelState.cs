@@ -26,6 +26,7 @@ namespace HmmDotNet.MachineLearning.Estimators
         protected double[] _pi;
         protected double[][] _transitionProbabilityMatrix;
         protected TDistribution[] _emission;
+        protected double[][] _emissionWeight;
         protected ModelType _modelType;
 
         #endregion Private Members
@@ -84,6 +85,11 @@ namespace HmmDotNet.MachineLearning.Estimators
         public TDistribution[] Emission
         {
             get { return _emission; }
+        }
+
+        public double[][] EmissionWeights 
+        {
+            get { return _emissionWeight; }
         }
 
         public int C
