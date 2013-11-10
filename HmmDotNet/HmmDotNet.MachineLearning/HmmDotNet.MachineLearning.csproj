@@ -77,6 +77,8 @@
     <Compile Include="Algorithms\VaribaleEstimation\SigmaUnivariateEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\SigmaMultivariateEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\TransitionProbabilityEstimator.cs" />
+    <Compile Include="Algorithms\Viterbi\Base\ISequenceData.cs" />
+    <Compile Include="Algorithms\Viterbi\Base\IViterbiAlgorithm.cs" />
     <Compile Include="Algorithms\Viterbi\Base\ViterbiBase.cs" />
     <Compile Include="Algorithms\Viterbi\Base\ViterbiDataNode.cs" />
     <Compile Include="Algorithms\Viterbi\Viterbi.cs" />

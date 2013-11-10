@@ -6,27 +6,34 @@ namespace HmmDotNet.TechnicalAnalysis.MovingAverage
 {
     public class ExponentialMovingAverage
     {
-        public double Calculate(IList<double> points, double alpha)
+        public double Calculate(double yesterdayMovingAverage, double todayValue, int numberOfDays)
+        {
+            var alpha = 2d / (numberOfDays + 1);
+            return yesterdayMovingAverage * (1 - alpha) + alpha * todayValue;
+        }
+
+        public IList<double> Calculate(IList<double> points, int numberOfDays)
         {
             if (points == null)
             {
                 throw new ArgumentException("Points can't be null");
             }
 
-            if (alpha <= 0)
+            if (points.Count < numberOfDays)
             {
-                throw new ArgumentException("Alpha can't be negative");
+                throw new ArgumentException("Points should have more length than number of days");
             }
 
-            var result = points.Select((point, i) => point * Math.Pow(alpha, (i + 1) - 1)).Sum();
-            
-            var denominator = 0.0;
-            for (var i = 0; i < points.Count; i++)
+            var result = new List<double>();
+            var sma = new SimpleMovingAverage();
+            var yesterdayMovingAverage = sma.Calculate(points.Take(numberOfDays).ToList());
+            for (var i = numberOfDays; i < points.Count; i++)
             {
-                denominator += Math.Pow(alpha, (i + 1) - 1);
+                var ema = Calculate(yesterdayMovingAverage, points[i], numberOfDays);
+                result.Add(ema);
+                yesterdayMovingAverage = ema;
             }
-
-            return result / denominator;
+            return result;
         }
     }
 }

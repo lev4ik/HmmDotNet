@@ -26,6 +26,10 @@ namespace HmmDotNet.MachineLearning.Base
         /// </summary>
         TDistribution[] Emission { get; }
         /// <summary>
+        ///     Weights for more than one distribution function in each output state
+        /// </summary>
+        double[][] EmissionWeights { get; }
+        /// <summary>
         ///     Number of components on Mixture distribution
         /// </summary>
         int C { get; }
