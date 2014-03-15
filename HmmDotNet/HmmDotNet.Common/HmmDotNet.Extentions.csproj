@@ -40,8 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayExtentions.cs" />
+    <Compile Include="Base\IChangeRatioFinder.cs" />
+    <Compile Include="ChangeRatioFinder.cs" />
     <Compile Include="Converters.cs" />
+    <Compile Include="Data\MaximumChangePoints.cs" />
     <Compile Include="JaggedArray.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
