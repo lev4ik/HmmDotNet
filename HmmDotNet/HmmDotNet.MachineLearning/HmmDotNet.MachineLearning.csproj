@@ -48,6 +48,27 @@
     <Compile Include="Algorithms\Clustering\KMeans.cs" />
     <Compile Include="Algorithms\Forward-Backward\Base\BaseForwardBackward.cs" />
     <Compile Include="Algorithms\Forward-Backward\ForwardBackward.cs" />
+    <Compile Include="Algorithms\Forward-Backward\Base\IForwardBackward.cs" />
+    <Compile Include="Algorithms\Search\Base\IBeamSearch.cs" />
+    <Compile Include="Algorithms\Search\Base\IChromosome.cs" />
+    <Compile Include="Algorithms\Search\Base\ICrossover.cs" />
+    <Compile Include="Algorithms\Search\Base\IEvaluator.cs" />
+    <Compile Include="Algorithms\Search\Base\IGene.cs" />
+    <Compile Include="Algorithms\Search\Base\IGeneticSolver.cs" />
+    <Compile Include="Algorithms\Search\Base\IGeneticSolverParameters.cs" />
+    <Compile Include="Algorithms\Search\Base\IMutatable.cs" />
+    <Compile Include="Algorithms\Search\Base\IPopulationInitializer.cs" />
+    <Compile Include="Algorithms\Search\Base\ISelector.cs" />
+    <Compile Include="Algorithms\Search\BeamLikeSearch.cs" />
+    <Compile Include="Algorithms\Search\Genetic\Crossover.cs" />
+    <Compile Include="Algorithms\Search\Genetic\Chromosome.cs" />
+    <Compile Include="Algorithms\Search\Genetic\Gene.cs" />
+    <Compile Include="Algorithms\Search\Genetic\GeneticSolver.cs" />
+    <Compile Include="Algorithms\Search\Genetic\GeneticSolverParameters.cs" />
+    <Compile Include="Algorithms\Search\Genetic\FitnessEvaluator\HmmEvaluator.cs" />
+    <Compile Include="Algorithms\Search\Genetic\Mutator.cs" />
+    <Compile Include="Algorithms\Search\Genetic\PopulationInitialization\FromTimeSeriesRandomInitializer.cs" />
+    <Compile Include="Algorithms\Search\Genetic\SelectionMethods\TournamentSelection.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\AlphaEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\Base\BaseEstimator.cs" />
     <Compile Include="Algorithms\VaribaleEstimation\Base\IEstimationParameters.cs" />
@@ -114,7 +135,8 @@
     <Compile Include="GeneralPredictors\Base\IPredictionResult.cs" />
     <Compile Include="GeneralPredictors\EvaluationRequest.cs" />
     <Compile Include="GeneralPredictors\PredictionErrorEstimatorFactory.cs" />
-    <Compile Include="GeneralPredictors\PredictionRequest.cs" />
+    <Compile Include="GeneralPredictors\Request\PredictionRequest.cs" />
+    <Compile Include="GeneralPredictors\Request\SearchBasedPredictionRequest.cs" />
     <Compile Include="GeneralPredictors\TrendPredictionErrorEstimator.cs" />
     <Compile Include="GeneralPredictors\ValuePredictionErrorEstimator.cs" />
     <Compile Include="Helper.cs" />
@@ -125,9 +147,11 @@
     <Compile Include="HiddenMarkovModels\HiddenMarkovModelMultivariateGaussianDistribution.cs" />
     <Compile Include="HiddenMarkovModels\HiddenMarkovModelState.cs" />
     <Compile Include="HiddenMarkovModels\HiddenMarkovModelStateFactory.cs" />
+    <Compile Include="HiddenMarkovModels\Predictors\GeneticBasedPredictor.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\HiddenMarkovModelPredictorFactory.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\IHiddenMarkovModelPredictor.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\LikelihoodBasedPredictor.cs" />
+    <Compile Include="HiddenMarkovModels\Predictors\SearchBasedPredictor.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\ViterbiBasedPredictor.cs" />
     <Compile Include="IObservation.cs" />
     <Compile Include="MultivariateObservation.cs" />
@@ -144,6 +168,10 @@
     <None Include="HiddenMarkovModels\HiddenMarkovModels.cd" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HmmDotNet.Common\HmmDotNet.Extentions.csproj">
+      <Project>{5425F8B4-F69C-40FC-9D09-2A6C198EF9CA}</Project>
+      <Name>HmmDotNet.Extentions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HmmDotNet.Mathematic\HmmDotNet.Mathematic.csproj">
       <Project>{f4dc1298-efe9-4b6b-9641-6b858e65dc0a}</Project>
       <Name>HmmDotNet.Mathematic</Name>
@@ -153,7 +181,9 @@
       <Name>HmmDotNet.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GeneralPredictors\Request\Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

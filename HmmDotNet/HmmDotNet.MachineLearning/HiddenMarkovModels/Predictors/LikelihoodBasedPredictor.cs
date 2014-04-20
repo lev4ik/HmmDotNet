@@ -9,6 +9,10 @@ using HmmDotNet.Statistics.Distributions;
 
 namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
 {
+    /// <summary>
+    ///     This algorithm is base on "Stock Market Forecasting Using Hidden Markov Model: A New Approach"
+    ///     by Rafiuk Hassan and Baikunth Nath, 2005 IEEE
+    /// </summary>
     public class LikelihoodBasedPredictor : IHiddenMarkovModelPredictor
     {
         public IPredictionResult Predict<TDistribution>(IHiddenMarkovModel<TDistribution> model, IPredictionRequest request)

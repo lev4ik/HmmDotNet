@@ -13,6 +13,8 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels.Predictors
                     return new LikelihoodBasedPredictor();
                 case PredictorType.HmmViterbi:
                     return new ViterbiBasedPredictor();
+                case PredictorType.Genetic:
+                    return new GeneticBasedPredictor();
             }
             throw new ApplicationException("Not implemented");
         }

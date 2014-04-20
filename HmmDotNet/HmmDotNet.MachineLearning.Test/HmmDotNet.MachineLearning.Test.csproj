@@ -56,8 +56,15 @@
     <Compile Include="Algorithms\BaumWelchGaussianTest.cs" />
     <Compile Include="Algorithms\BaumWelchMultivariateTest.cs" />
     <Compile Include="Algorithms\BaumWelchTest.cs" />
+    <Compile Include="Algorithms\BeamLikeSearchTest.cs" />
     <Compile Include="Algorithms\ForwardBackwardTest.cs" />
     <Compile Include="Algorithms\KMeansTest.cs" />
+    <Compile Include="Algorithms\Search\CrossoverTest.cs" />
+    <Compile Include="Algorithms\Search\DecimalArrayChromosomeTest.cs" />
+    <Compile Include="Algorithms\Search\FromTimeSeriesRandomInitializerTest.cs" />
+    <Compile Include="Algorithms\Search\GeneticSolverTest.cs" />
+    <Compile Include="Algorithms\Search\DecimalArrayGeneTest.cs" />
+    <Compile Include="Algorithms\Search\TournamentSelectionTest.cs" />
     <Compile Include="Algorithms\ViterbiMixtureTest.cs" />
     <Compile Include="Algorithms\ViterbiMultiDistributionTest.cs" />
     <Compile Include="Algorithms\ViterbiMultivariateTest.cs" />
@@ -86,6 +93,7 @@
     <Compile Include="HiddenMarkovModel\HiddenMarkovModelStateFactoryTest.cs" />
     <Compile Include="HiddenMarkovModel\HiddenMarkovModelStateTest.cs" />
     <Compile Include="HiddenMarkovModel\HiddenMarkovModelTest.cs" />
+    <Compile Include="Predictors\SearchBasedPredictorTest.cs" />
     <Compile Include="Predictors\TrendPredictionErrorEstimatorTest.cs" />
     <Compile Include="Predictors\ValuePredictionErrorEstimatorTest.cs" />
     <Compile Include="Predictors\ViterbiBasedPredictorTest.cs" />
@@ -103,6 +111,10 @@
     <None Include="Data\SP500\SP500.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HmmDotNet.Common\HmmDotNet.Extentions.csproj">
+      <Project>{5425F8B4-F69C-40FC-9D09-2A6C198EF9CA}</Project>
+      <Name>HmmDotNet.Extentions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HmmDotNet.MachineLearning\HmmDotNet.MachineLearning.csproj">
       <Project>{6a2a94d7-167f-48f6-9039-0469d1b2ca54}</Project>
       <Name>HmmDotNet.MachineLearning</Name>

@@ -6,7 +6,7 @@ using HmmDotNet.Statistics.Distributions;
 
 namespace HmmDotNet.MachineLearning.Algorithms
 {
-    public class ForwardBackward
+    public class ForwardBackward : IForwardBackward
     {
         #region Constructors
 

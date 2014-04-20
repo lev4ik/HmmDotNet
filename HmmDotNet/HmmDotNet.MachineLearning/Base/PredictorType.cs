@@ -5,6 +5,7 @@
         HmmLikelihood,
         HmmViterbi,
         GmmLikelihood,
-        GmmViterbi
+        GmmViterbi,
+        Genetic
     }
 }
