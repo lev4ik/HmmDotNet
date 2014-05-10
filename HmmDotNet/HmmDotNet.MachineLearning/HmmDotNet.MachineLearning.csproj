@@ -44,7 +44,9 @@
     <Compile Include="Algorithms\Baum-Welch\BaumWelch.cs" />
     <Compile Include="Algorithms\Baum-Welch\BaumWelchGaussianDistribution.cs" />
     <Compile Include="Algorithms\Baum-Welch\BaumWelchMixtureDistribution.cs" />
+    <Compile Include="Algorithms\Baum-Welch\BaumWelchWeightedMixtureDistribution.cs" />
     <Compile Include="Algorithms\Baum-Welch\BaumWelchMultivariateDistribution.cs" />
+    <Compile Include="Algorithms\Baum-Welch\TimeSensitiveWeightCalculator.cs" />
     <Compile Include="Algorithms\Clustering\KMeans.cs" />
     <Compile Include="Algorithms\Forward-Backward\Base\BaseForwardBackward.cs" />
     <Compile Include="Algorithms\Forward-Backward\ForwardBackward.cs" />

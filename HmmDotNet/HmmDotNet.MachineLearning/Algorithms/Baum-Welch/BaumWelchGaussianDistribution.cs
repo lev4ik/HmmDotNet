@@ -81,7 +81,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 _sigmaEstimator = new SigmaUnivariateEstimator<NormalDistribution>();
 
                 EstimatePi(_gammaEstimator.Estimate(@params));
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), null, _observations.Count);
                 // Estimate observation probabilities
                 var muParams = new MuEstimationParameters<NormalDistribution>
                 {

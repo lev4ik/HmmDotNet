@@ -11,6 +11,16 @@ namespace HmmDotNet.MachineLearning.Algorithms
     public class MixtureMuEstimator<TDistribution> : IVariableEstimator<double[,][], MixtureCoefficientEstimationParameters<TDistribution>> 
                                                      where TDistribution : IDistribution
     {
+        #region Private Methods
+
+        private double GetWeightValue(int t, decimal[] weights)
+        {
+            var weight = weights != null ? (double)weights[t] : 1;
+            return weight;
+        }
+
+        #endregion Private Methods
+
         public double[,][] Estimate(MixtureCoefficientEstimationParameters<TDistribution> parameters)
         {
             if (_mu != null)
@@ -26,14 +36,16 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     for (var l = 0; l < parameters.L; l++)
                     {
                         var denominator = 0.0d;
-                        var nominator = new double[parameters.Observations[0].Dimention];
+                        var nominator = new double[parameters.Observations[0].Dimention];                        
                         for (var t = 0; t < parameters.Observations.Count; t++)
                         {
+                            // TODO : weights here
+                            var weight = GetWeightValue(t, parameters.ObservationWeights);
                             var x = parameters.Observations[t].Value;
                             var gamma = (parameters.Model.Normalized) ? LogExtention.eExp(parameters.GammaComponents[t][i, l])
                                                                           : parameters.GammaComponents[t][i, l];
-                            denominator += gamma;
-                            x = x.Product(gamma);
+                            denominator += weight * gamma;
+                            x = x.Product(gamma * weight);
                             nominator = nominator.Add(x);
                         }
                         _mu[i, l] = nominator.Product(1 / denominator);

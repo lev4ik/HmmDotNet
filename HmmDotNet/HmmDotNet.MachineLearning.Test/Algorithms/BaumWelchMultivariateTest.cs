@@ -50,7 +50,7 @@ namespace HmmDotNet.MachineLearning.Test
             {
                 _startDistribution[j] = 1d / K;
             }
-            // Train Transition Probaboloty Matrix
+            // Train Transition Probability Matrix
             for (var j = 0; j < K; j++)
             {
                 _tpm[j] = (double[])_startDistribution.Clone();

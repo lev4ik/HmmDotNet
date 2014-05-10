@@ -65,6 +65,20 @@ namespace HmmDotNet.MachineLearning.Algorithms
             }
         }
 
+        private double GetWeightValue(int t, decimal[] weights)
+        {
+            var weight = 0.0;
+            if (weights != null)
+            {
+                weight = (_model.Normalized) ? LogExtention.eLn((double)weights[t]) : (double)weights[t];
+            }
+            else
+            {
+                weight = (_model.Normalized) ? 0 : 1;
+            }
+            return weight;
+        }
+
         #endregion Private Methods
 
         protected void EstimatePi(double[][] gamma)
@@ -78,7 +92,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
             CheckPi(checksum);
         }
 
-        protected void EstimateTransitionProbabilityMatrix(double[][] gamma, double[][,] ksi, int sequenceLength)
+        protected void EstimateTransitionProbabilityMatrix(double[][] gamma, double[][,] ksi, decimal[] observationWeights, int sequenceLength)
         {
             var checksum = new double[_model.N];
             for (var i = 0; i < _model.N; i++)
@@ -89,15 +103,16 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     double den = (_model.Normalized) ? double.NaN : 0, num = (_model.Normalized) ? double.NaN : 0;
                     for (var t = 0; t < sequenceLength - 1; t++)
                     {
+                        var weight = GetWeightValue(t, observationWeights);
                         if (_model.Normalized)
                         {
-                            num = LogExtention.eLnSum(num, ksi[t][i, j]);
-                            den = LogExtention.eLnSum(den, gamma[t][i]);
+                            num = LogExtention.eLnSum(num, LogExtention.eLnProduct(weight, ksi[t][i, j]));
+                            den = LogExtention.eLnSum(den, LogExtention.eLnProduct(weight, gamma[t][i]));
                         }
                         else
                         {
-                            num += ksi[t][i, j];
-                            den += gamma[t][i];
+                            num += weight * ksi[t][i, j];
+                            den += weight * gamma[t][i];
                         }
                     }
                     if (_model.Normalized)

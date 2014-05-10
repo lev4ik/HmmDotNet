@@ -8,9 +8,9 @@ using HmmDotNet.Mathematic.Extentions;
 using HmmDotNet.Statistics.Distributions;
 using HmmDotNet.Statistics.Distributions.Multivariate;
 
-namespace HmmDotNet.MachineLearning.Algorithms
+namespace HmmDotNet.MachineLearning.Algorithms.Baum_Welch
 {
-    public class BaumWelchMixtureDistribution : BaseBaumWelch<Mixture<IMultivariateDistribution>>, IBaumWelchAlgorithm<Mixture<IMultivariateDistribution>>
+    public class BaumWelchWeightedMixtureDistribution :  BaseBaumWelch<Mixture<IMultivariateDistribution>>, IBaumWelchAlgorithm<Mixture<IMultivariateDistribution>>
     {
         #region Private Members
 
@@ -18,6 +18,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
         private KsiEstimator<Mixture<IMultivariateDistribution>> _ksiEstimator;
 
         private readonly IList<IObservation> _observations;
+        private readonly decimal[] _observationWeights;
+        
         private IHiddenMarkovModel<Mixture<IMultivariateDistribution>> _estimatedModel;
         private IHiddenMarkovModel<Mixture<IMultivariateDistribution>> _currentModel;
 
@@ -25,11 +27,12 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
         #endregion Private Members
 
-        #region Constructors
-
-        public BaumWelchMixtureDistribution(IList<IObservation> observations, IHiddenMarkovModel<Mixture<IMultivariateDistribution>> model): base(model)
+        public BaumWelchWeightedMixtureDistribution(IList<IObservation> observations, decimal[] observationWeights, IHiddenMarkovModel<Mixture<IMultivariateDistribution>> model)
+            : base(model)
         {
             _observations = observations;
+            _observationWeights = observationWeights;
+
             _currentModel = model;
             _estimatedEmissions = new Mixture<IMultivariateDistribution>[_currentModel.N];
             for (var i = 0; i < model.N; i++)
@@ -42,10 +45,6 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
             Normalized = _estimatedModel.Normalized = model.Normalized;
         }
-
-        #endregion Constructors
-
-        #region IBaumWelchAlgorithm Members
 
         public bool Normalized { get; set; }
 
@@ -73,7 +72,8 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     Observations = _observations,
                     Model = _currentModel,
                     Normalized = _currentModel.Normalized,
-                    L = _currentModel.Emission[0].Components.Length
+                    L = _currentModel.Emission[0].Components.Length,
+                    ObservationWeights = _observationWeights
                 };
                 _gammaEstimator = new GammaEstimator<Mixture<IMultivariateDistribution>>();
                 _ksiEstimator = new KsiEstimator<Mixture<IMultivariateDistribution>>();
@@ -86,22 +86,25 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
 
                 EstimatePi(_gammaEstimator.Estimate(@params));
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), null, _observations.Count);
+                // TODO : weights for A
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observationWeights, _observations.Count);
 
                 for (var n = 0; n < _currentModel.N; n++)
                 {
                     var mixturesComponents = _currentModel.Emission[n].Coefficients.Length;
                     var distributions = new IMultivariateDistribution[mixturesComponents];
                     // Calculate coefficients for state n
-                    
+                    // TODO : weights for W
                     var coefficients = mixtureCoefficientsEstimator.Estimate(@params)[n];
                     if (Normalized)
                     {
                         mixtureCoefficientsEstimator.Denormalize();
                     }
+                    // TODO : weights Mu
                     @params.Mu = mixtureMuEstimator.Estimate(@params);
                     for (var l = 0; l < mixturesComponents; l++)
                     {
+                        // TODO : weights Sigma
                         distributions[l] = new NormalDistribution(mixtureMuEstimator.Estimate(@params)[n, l], mixtureSigmaEstimator.Estimate(@params)[n, l]);
                     }
                     _estimatedEmissions[n] = new Mixture<IMultivariateDistribution>(coefficients, distributions);
@@ -116,7 +119,5 @@ namespace HmmDotNet.MachineLearning.Algorithms
 
             return _estimatedModel;
         }
-      
-        #endregion
     }
 }

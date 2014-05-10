@@ -13,5 +13,7 @@ namespace HmmDotNet.MachineLearning.Algorithms.VaribaleEstimation.EstimationPara
         public IHiddenMarkovModel<TDistribution> Model { get; set; }
 
         public IList<IObservation> Observations { get; set; }
+
+        public decimal[] ObservationWeights { get; set; }
     }
 }

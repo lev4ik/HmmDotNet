@@ -93,7 +93,7 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 
                 // Estimate transition probabilities and start distribution
                 EstimatePi(_gammaEstimator.Estimate(@params));
-                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), _observations.Count);
+                EstimateTransitionProbabilityMatrix(_gammaEstimator.Estimate(@params), _ksiEstimator.Estimate(@params), null, _observations.Count);
                 // Estimate Emmisions
                 for (var j = 0; j < _currentModel.N; j++)
                 {

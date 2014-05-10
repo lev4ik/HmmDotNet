@@ -12,6 +12,24 @@ namespace HmmDotNet.MachineLearning.Algorithms
                                                                INormalizedEstimator
                                                                where TDistribution : IDistribution
     {
+        #region Private Methods
+
+        private double GetWeightValue(int t, decimal[] weights)
+        {
+            var weight = 0.0;
+            if (weights != null)
+            {
+                weight = (_parameters.Model.Normalized) ? LogExtention.eLn((double)weights[t]) : (double)weights[t];
+            }
+            else
+            {
+                weight = (_parameters.Model.Normalized) ? 0 : 1;
+            }
+            return weight;
+        }
+
+        #endregion Private Methods
+
         public double[][] Estimate(MixtureCoefficientEstimationParameters<TDistribution> parameters)
         {
             _parameters = parameters;
@@ -28,14 +46,15 @@ namespace HmmDotNet.MachineLearning.Algorithms
                 {
                     _denominator[i] = (parameters.Model.Normalized) ? double.NaN : 0d;
                     for (var t = 0; t < parameters.Observations.Count; t++)
-                    {
+                    {                        
+                        var weight = GetWeightValue(t, parameters.ObservationWeights);
                         if (parameters.Normalized)
                         {
-                            _denominator[i] = LogExtention.eLnSum(parameters.Gamma[t][i], _denominator[i]);
+                            _denominator[i] = LogExtention.eLnSum(LogExtention.eLnProduct(weight, parameters.Gamma[t][i]), _denominator[i]);
                         }
                         else
                         {
-                            _denominator[i] += parameters.Gamma[t][i];
+                            _denominator[i] += weight * parameters.Gamma[t][i];
                         }
                     }
                 }
@@ -47,14 +66,14 @@ namespace HmmDotNet.MachineLearning.Algorithms
                         var nominator = (parameters.Model.Normalized) ? double.NaN : 0d;
                         for (var t = 0; t < parameters.Observations.Count; t++)
                         {
+                            var weight = GetWeightValue(t, parameters.ObservationWeights);
                             if (parameters.Normalized)
                             {
-                                nominator = LogExtention.eLnSum(parameters.GammaComponents[t][i, l],
-                                                                nominator);
+                                nominator = LogExtention.eLnSum(LogExtention.eLnProduct(weight, parameters.GammaComponents[t][i, l]), nominator);
                             }
                             else
                             {
-                                nominator += parameters.GammaComponents[t][i, l];
+                                nominator += weight * parameters.GammaComponents[t][i, l];
                             }
                         }
 

@@ -11,6 +11,16 @@ namespace HmmDotNet.MachineLearning.Algorithms
     public class MixtureSigmaEstimator<TDistribution> : IVariableEstimator<double[,][,], MixtureSigmaEstimationParameters<TDistribution>>
                                                         where TDistribution : IDistribution
     {
+        #region Private Methods
+
+        private double GetWeightValue(int t, decimal[] weights)
+        {
+            var weight = weights != null ? (double)weights[t] : 1;
+            return weight;
+        }
+
+        #endregion Private Methods
+
         public double[,][,] Estimate(MixtureSigmaEstimationParameters<TDistribution> parameters)
         {
             if (_sigma != null)
@@ -28,14 +38,16 @@ namespace HmmDotNet.MachineLearning.Algorithms
                     var nominator = new double[parameters.Observations[0].Dimention, parameters.Observations[0].Dimention];
                     for (var t = 0; t < parameters.Observations.Count; t++)
                     {
+                        // TODO : weights here
+                        var weight = GetWeightValue(t, parameters.ObservationWeights);
                         var gammaComponents = (parameters.Model.Normalized) ? LogExtention.eExp(parameters.GammaComponents[t][i, l]) : parameters.GammaComponents[t][i, l];
 
                         var x = parameters.Observations[t].Value;
                         var z = x.Substruct(parameters.Mu[i, l]);
                         var m = z.OuterProduct(z);
 
-                        m = m.Product(gammaComponents);
-                        denominator += gammaComponents;
+                        m = m.Product(weight * gammaComponents);
+                        denominator += weight * gammaComponents;
                         nominator = nominator.Add(m);
                     }
                     _sigma[i, l] = nominator.Product(1 / denominator);

@@ -73,7 +73,7 @@ namespace HmmDotNet.MachineLearning.Test
 
             var res = algo.Run(100, LikelihoodTolerance);
 
-            Assert.AreEqual(1d, res.Pi.Sum());
+            Assert.AreEqual(1d, Math.Round(res.Pi.Sum(), 5));
             Assert.AreEqual(1d, Math.Round(res.TransitionProbabilityMatrix[0].Sum(), 5));
             Assert.AreEqual(1d, Math.Round(res.TransitionProbabilityMatrix[1].Sum(), 5));
             Assert.AreEqual(1d, Math.Round(res.TransitionProbabilityMatrix[2].Sum(), 5));
