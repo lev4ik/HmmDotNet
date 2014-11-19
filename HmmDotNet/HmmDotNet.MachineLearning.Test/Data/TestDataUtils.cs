@@ -4,21 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using HmmDotNet.Mathematic;
+using HmmDotNet.MachineLearning.Test.Data;
 
 namespace HmmDotNet.Logic.Test.MachineLearning.Data
 {
-    public interface ITestDataUtils
-    {
-        /// <summary>
-        ///     Retrieves S&P 500 data from CSV file and transform it to multidimentional array
-        /// </summary>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        double[][] GetSvcData(string filePath, DateTime fromDate, DateTime toDate);
-    }
-
     public class TestDataUtils : ITestDataUtils
     {
         private const string username = @"lev";

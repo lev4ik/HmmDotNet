@@ -149,6 +149,7 @@
     <Compile Include="HiddenMarkovModels\HiddenMarkovModelMultivariateGaussianDistribution.cs" />
     <Compile Include="HiddenMarkovModels\HiddenMarkovModelState.cs" />
     <Compile Include="HiddenMarkovModels\HiddenMarkovModelStateFactory.cs" />
+    <Compile Include="HiddenMarkovModels\HiddenMarkovModelWeightedMixtureDistribution.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\GeneticBasedPredictor.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\HiddenMarkovModelPredictorFactory.cs" />
     <Compile Include="HiddenMarkovModels\Predictors\IHiddenMarkovModelPredictor.cs" />

@@ -72,9 +72,12 @@
     <Compile Include="Algorithms\ViterbiMultivariateTest.cs" />
     <Compile Include="Algorithms\ViterbiTest.cs" />
     <Compile Include="Data\DataRecord.cs" />
+    <Compile Include="Data\ITestDataUtils.cs" />
     <Compile Include="Data\PredictionFileRecord.cs" />
     <Compile Include="Data\TestDataUtils.cs" />
     <Compile Include="Data\TestDataUtilsTest.cs" />
+    <Compile Include="Data\TestPipedDataUtils.cs" />
+    <Compile Include="Data\VideoViewDataRecord.cs" />
     <Compile Include="Estimators\AlphaEstimatorTest.cs" />
     <Compile Include="Estimators\BetaEstimatorTest.cs" />
     <Compile Include="Estimators\GammaEstimatorTest.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Predictors\SearchBasedPredictorTest.cs" />
     <Compile Include="Predictors\TrendPredictionErrorEstimatorTest.cs" />
     <Compile Include="Predictors\ValuePredictionErrorEstimatorTest.cs" />
+    <Compile Include="Predictors\VideoViewPredictorTest.cs" />
     <Compile Include="Predictors\ViterbiBasedPredictorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VaribaleEstimatorsTest.cs" />
@@ -129,6 +133,9 @@
       <Project>{f0f7b03b-aa7c-4f79-ae97-f49161a91a62}</Project>
       <Name>HmmDotNet.Statistics</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\VideoViews\video_views.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
