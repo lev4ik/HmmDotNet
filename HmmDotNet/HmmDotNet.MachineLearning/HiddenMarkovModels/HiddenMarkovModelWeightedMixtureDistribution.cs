@@ -85,7 +85,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels
 
         public IPredictionResult Predict(PredictorType predictorType, double[][] observations, int numberOfIterations, double likelihoodTolerance)
         {
-            var model = (HiddenMarkovModelMixtureDistribution)HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });//HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });
+            var model = (HiddenMarkovModelWeightedMixtureDistribution)HiddenMarkovModelFactory.GetModel<HiddenMarkovModelWeightedMixtureDistribution, Mixture<IMultivariateDistribution>>(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });//HiddenMarkovModelStateFactory.GetState(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });
             model.Normalized = Normalized;
             var request = new PredictionRequest();
             request.TrainingSet = observations;
@@ -100,7 +100,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels
 
         public IPredictionResult Predict(PredictorType predictorType, double[][] training, double[][] test, int numberOfDays, int numberOfIterations, double likelihoodTolerance)
         {
-            var model = (HiddenMarkovModelMixtureDistribution)HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });//new HiddenMarkovModelState<IMultivariateDistribution>(_pi, _transitionProbabilityMatrix, _emission);
+            var model = (HiddenMarkovModelWeightedMixtureDistribution)HiddenMarkovModelFactory.GetModel<HiddenMarkovModelWeightedMixtureDistribution, Mixture<IMultivariateDistribution>>(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });//new HiddenMarkovModelState<IMultivariateDistribution>(_pi, _transitionProbabilityMatrix, _emission);
             model.Normalized = Normalized;
             var request = new PredictionRequest();
             request.TrainingSet = training;
@@ -116,7 +116,7 @@ namespace HmmDotNet.MachineLearning.HiddenMarkovModels
 
         public IEvaluationResult EvaluatePrediction(IPredictionResult results, double[][] observations)
         {
-            var model = (HiddenMarkovModelMixtureDistribution)HiddenMarkovModelFactory.GetModel(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });//new HiddenMarkovModelState<IMultivariateDistribution>(_pi, _transitionProbabilityMatrix, _emission);
+            var model = (HiddenMarkovModelWeightedMixtureDistribution)HiddenMarkovModelFactory.GetModel<HiddenMarkovModelWeightedMixtureDistribution, Mixture<IMultivariateDistribution>>(new ModelCreationParameters<Mixture<IMultivariateDistribution>> { Pi = _pi, TransitionProbabilityMatrix = _transitionProbabilityMatrix, Emissions = _emission });//new HiddenMarkovModelState<IMultivariateDistribution>(_pi, _transitionProbabilityMatrix, _emission);
             model.Normalized = Normalized;
             var request = new EvaluationRequest();
             request.PredictionParameters = new PredictionRequest();
