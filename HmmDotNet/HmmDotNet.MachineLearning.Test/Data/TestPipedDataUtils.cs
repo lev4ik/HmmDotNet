@@ -10,7 +10,7 @@ namespace HmmDotNet.MachineLearning.Test.Data
     {
         private const string username = @"lev";
         public string VideoViewsFilePath = string.Format(@"C:\Users\{0}\Dropbox\Trading Automation Project\TA.Logic.Test\MachineLearning\Data\VideoViews\video_views.txt", username);
-        public string OutputDirectory = string.Format(@"C:\Users\{0}\Documents", username);
+        public string OutputDirectory = string.Format(@"C:\Users\{0}\Documents\", username);
 
         public double[][] GetSvcData(string filePath, DateTime fromDate, DateTime toDate)
         {
@@ -56,7 +56,7 @@ namespace HmmDotNet.MachineLearning.Test.Data
             return array;
         }
 
-        public void SaveToFile(double[][] test, double[][] predicted)
+        public void SaveToFile(string filename, double[][] test, double[][] predicted)
         {
             var builder = new StringBuilder();
             for (int k = 0; k < test.Length; k++)
@@ -64,7 +64,7 @@ namespace HmmDotNet.MachineLearning.Test.Data
                 builder.Append(test[k][0]).Append(",");
                 builder.Append(predicted[k][0]).Append(",").Append(Environment.NewLine);
             }
-            using (var outfile = new StreamWriter(OutputDirectory + @"\data.csv"))
+            using (var outfile = new StreamWriter(OutputDirectory + filename))
             {
                 outfile.Write(builder.ToString());
             }
